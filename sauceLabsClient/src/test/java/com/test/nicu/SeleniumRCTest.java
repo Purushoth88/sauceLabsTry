@@ -1,10 +1,13 @@
 package com.test.nicu;
 
-import static junit.framework.Assert.assertEquals;
+import java.net.MalformedURLException;
+import java.net.URL;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.Platform;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.thoughtworks.selenium.DefaultSelenium;
 
@@ -15,27 +18,41 @@ import com.thoughtworks.selenium.DefaultSelenium;
  */
 public class SeleniumRCTest {
 
-	private DefaultSelenium	selenium;
-
-	@Before
-	public void setUp() throws Exception {
-
-		final DefaultSelenium selenium = new DefaultSelenium("ondemand.saucelabs.com", 80, "{\"username\": \"martchouk\"," + "\"access-key\": \"87335815-89fd-4022-94e0-9c268f5991f9\"," + "\"os\": \"Windows 2003\","
-				+ "\"browser\": \"firefox\"," + "\"browser-version\": \"7\"," + "\"name\": \"Testing Selenium 1 with Java on Sauce\"}", "http://saucelabs.com/");
-		selenium.start();
-		this.selenium = selenium;
-
+	@Test
+	public void testTest() throws MalformedURLException {
+		// run against Firefox v12 on Windows XP
+		final DesiredCapabilities capabilities = DesiredCapabilities.firefox();
+		capabilities.setPlatform(Platform.XP);
+		capabilities.setCapability("version", "12");
+		final WebDriver driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), capabilities);
+		driver.get("http://www.amazon.com");
+		driver.quit();
 	}
 
 	@Test
-	public void selenumRC() throws Exception {
-		this.selenium.open("http://www.amazon.com");
-		assertEquals("Amazon.com: Online Shopping for Electronics, Apparel, Computers, Books, DVDs & more", this.selenium.getTitle());
+	public void testTest2() throws MalformedURLException {
+		// run against Firefox v12 on Windows XP
+		final DesiredCapabilities capabilities = DesiredCapabilities.firefox();
+		capabilities.setPlatform(Platform.LINUX);
+		capabilities.setCapability("version", "6.0.2");
+		final WebDriver driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), capabilities);
+		driver.get("http://www.amazon.com");
+		driver.quit();
 	}
 
-	@After
-	public void tearDown() throws Exception {
-		this.selenium.stop();
+	@Test
+	public void testTest3() throws MalformedURLException {
+		// run against Firefox v12 on Windows XP
+		final DesiredCapabilities capabilities = DesiredCapabilities.android();
+		capabilities.setPlatform(Platform.ANDROID);
+		capabilities.setCapability("version", "6.0.2");
+		final WebDriver driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), capabilities);
+		driver.get("http://www.amazon.com");
+		driver.quit();
 	}
+
+	/*
+	 * @After public void tearDown() throws Exception { this.selenium.stop(); }
+	 */
 
 }

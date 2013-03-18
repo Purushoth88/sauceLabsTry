@@ -13,7 +13,8 @@ package com.test.nicu;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.maven.surefire.common.junit4.JUnit4StackTraceWriter;
+import org.apache.maven.plugin.surefire.booterclient.output.DeserializedStacktraceWriter;
+import org.apache.maven.plugin.surefire.report.DefaultReporterFactory;
 import org.apache.maven.surefire.report.ReportEntry;
 import org.apache.maven.surefire.report.RunListener;
 import org.apache.maven.surefire.report.SimpleReportEntry;
@@ -45,8 +46,9 @@ public class JUnit4RunListener extends org.junit.runner.notification.RunListener
 	 * @param reporter
 	 *            the reporter to log testing events to
 	 */
-	public JUnit4RunListener(final RunListener reporter) {
-		this.reporter = reporter;
+	public JUnit4RunListener() {
+		final DefaultReporterFactory factory = DefaultReporterFactory.defaultNoXml();
+		this.reporter = factory.createReporter();
 	}
 
 	// Testrun methods are not invoked when using the runner
@@ -58,6 +60,7 @@ public class JUnit4RunListener extends org.junit.runner.notification.RunListener
 	 */
 	@Override
 	public void testIgnored(final Description description) throws Exception {
+
 	}
 
 	/**
@@ -90,7 +93,7 @@ public class JUnit4RunListener extends org.junit.runner.notification.RunListener
 	}
 
 	protected StackTraceWriter createStackTraceWriter(final Failure failure) {
-		return new JUnit4StackTraceWriter(failure);
+		return new DeserializedStacktraceWriter(failure.getMessage(), failure.getTestHeader(), failure.getTrace());
 	}
 
 	@Override
@@ -113,7 +116,6 @@ public class JUnit4RunListener extends org.junit.runner.notification.RunListener
 	}
 
 	protected SimpleReportEntry createReportEntry(final Description description) {
-		System.out.println("MUHAHAHAHAHAHAHAHAHAHHHHHHHHHHHHHHHHH");
 		return new SimpleReportEntry(getClassName(description), description.getDisplayName());
 	}
 

@@ -31,24 +31,24 @@ public class ParametrizedWebDriverTest extends ParametrizedParentTest {
 	/**
 	 * class logger.
 	 */
-	private static final Logger		logger						= Logger.getLogger(ParametrizedWebDriverTest.class);
+	private static final Logger				logger						= Logger.getLogger(ParametrizedWebDriverTest.class);
 
 	/**
 	 * 
 	 */
-	private WebDriver				webDriver					= null;
+	private WebDriver						webDriver					= null;
 
 	/**
 	 * 
 	 */
-	private CapabilityConfiguraton	capabilityConfiguraton;
+	private final CapabilityConfiguraton	capabilityConfiguraton;
 	/**
 	 * JUnit Rule which will mark the Sauce Job as passed/failed when the test succeeds or fails.
 	 */
 	@Rule
-	public SauceOnDemandTestWatcher	resultReportingTestWatcher	= new SauceOnDemandTestWatcher(this, authentication);
+	public SauceOnDemandTestWatcher			resultReportingTestWatcher	= new SauceOnDemandTestWatcher(this, authentication);
 
-	public ParametrizedWebDriverTest(CapabilityConfiguraton capabilityConfiguraton) {
+	public ParametrizedWebDriverTest(final CapabilityConfiguraton capabilityConfiguraton) {
 		this.capabilityConfiguraton = capabilityConfiguraton;
 	}
 

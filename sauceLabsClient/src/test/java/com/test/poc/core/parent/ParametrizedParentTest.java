@@ -45,28 +45,28 @@ public abstract class ParametrizedParentTest implements SauceOnDemandSessionIdPr
 	/**
 	 * 
 	 */
-	protected String						sessionId;
+	public String							sessionId;
 
 	protected static String					configurationFile	= "\\profiles\\saucelabs.poc.profile.DEVELOPMENT2.json";
 
-	protected WebDriver provideWebDriver(CapabilityConfiguraton capabilityConfiguraton) throws MalformedURLException {
+	protected WebDriver provideWebDriver(final CapabilityConfiguraton capabilityConfiguraton) throws MalformedURLException {
 		return prepareWebDriver(capabilityConfiguraton, authentication);
 	}
 
 	@Parameters
 	public static Collection data() throws JSONException, IOException {
-		ProfileConfiguration profileConfiguration = JSONConfigurationUtils.loadProfileConfiguration(configurationFile);
-		List<CapabilityConfiguraton> capabilityConfiguratons = profileConfiguration.getCapabilities();
+		final ProfileConfiguration profileConfiguration = JSONConfigurationUtils.loadProfileConfiguration(configurationFile);
+		final List<CapabilityConfiguraton> capabilityConfiguratons = profileConfiguration.getCapabilities();
 
 		int index = 0;
-		Object[][] data = new Object[capabilityConfiguratons.size()][];
-		for (CapabilityConfiguraton capabilityConfiguraton : capabilityConfiguratons) {
-			Object[] array = new Object[] { capabilityConfiguraton };
+		final Object[][] data = new Object[capabilityConfiguratons.size()][];
+		for (final CapabilityConfiguraton capabilityConfiguraton : capabilityConfiguratons) {
+			final Object[] array = new Object[] { capabilityConfiguraton };
 			data[index] = array;
 			index++;
 		}
 
-		List<Object[]> lo = Arrays.asList(data);
+		final List<Object[]> lo = Arrays.asList(data);
 		return lo;
 	}
 

@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
@@ -28,6 +29,7 @@ import com.thoughtworks.selenium.DefaultSelenium;
  * 
  * @author Ross Rowe
  */
+@Ignore
 public class SeleniumRCWithHelperTest implements SauceOnDemandSessionIdProvider {
 
 	/**

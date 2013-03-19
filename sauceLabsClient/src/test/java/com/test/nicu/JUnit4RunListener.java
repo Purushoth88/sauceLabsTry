@@ -13,6 +13,7 @@ package com.test.nicu;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.maven.plugin.surefire.StartupReportConfiguration;
 import org.apache.maven.plugin.surefire.booterclient.output.DeserializedStacktraceWriter;
 import org.apache.maven.plugin.surefire.report.DefaultReporterFactory;
 import org.apache.maven.surefire.report.ReportEntry;
@@ -47,7 +48,7 @@ public class JUnit4RunListener extends org.junit.runner.notification.RunListener
 	 *            the reporter to log testing events to
 	 */
 	public JUnit4RunListener() {
-		final DefaultReporterFactory factory = DefaultReporterFactory.defaultNoXml();
+		final DefaultReporterFactory factory = new DefaultReporterFactory(StartupReportConfiguration.defaultValue());
 		this.reporter = factory.createReporter();
 	}
 
@@ -81,15 +82,11 @@ public class JUnit4RunListener extends org.junit.runner.notification.RunListener
 	 */
 	@Override
 	public void testFailure(final Failure failure) throws Exception {
-		final ReportEntry report = SimpleReportEntry.withException(getClassName(failure.getDescription()), failure.getTestHeader(),
-				createStackTraceWriter(failure));
-
-		if (failure.getException() instanceof AssertionError) {
-			this.reporter.testFailed(report);
-		} else {
-			this.reporter.testError(report);
-		}
-		failureFlag.set(Boolean.TRUE);
+		/*
+		 * final ReportEntry report = SimpleReportEntry.withException(getClassName(failure.getDescription()), failure.getTestHeader(), createStackTraceWriter(failure));
+		 * 
+		 * if (failure.getException() instanceof AssertionError) { this.reporter.testFailed(report); } else { this.reporter.testError(report); } failureFlag.set(Boolean.TRUE);
+		 */
 	}
 
 	protected StackTraceWriter createStackTraceWriter(final Failure failure) {
@@ -109,6 +106,16 @@ public class JUnit4RunListener extends org.junit.runner.notification.RunListener
 	 */
 	@Override
 	public void testFinished(final Description description) throws Exception {
+		String displayName = "";
+		try {
+			displayName += description.getTestClass().getField("sessionId").toGenericString();
+		} catch (final SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (final NoSuchFieldException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		final Boolean failure = failureFlag.get();
 		if (failure == null) {
 			reporter.testSucceeded(createReportEntry(description));
@@ -116,7 +123,8 @@ public class JUnit4RunListener extends org.junit.runner.notification.RunListener
 	}
 
 	protected SimpleReportEntry createReportEntry(final Description description) {
-		return new SimpleReportEntry(getClassName(description), description.getDisplayName());
+		final SimpleReportEntry entry = SimpleReportEntry.ignored(getClassName(description), description.getDisplayName(), "MUHAHAHA");
+		return entry;
 	}
 
 	public String getClassName(final Description description) {

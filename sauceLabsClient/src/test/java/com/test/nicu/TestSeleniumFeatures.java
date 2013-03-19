@@ -2,22 +2,23 @@ package com.test.nicu;
 
 import static org.junit.Assert.fail;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-@Ignore
 public class TestSeleniumFeatures {
 	private WebDriver			driver;
 	private boolean				acceptNextAlert		= true;
@@ -42,30 +43,57 @@ public class TestSeleniumFeatures {
 		driver.findElement(By.id("login_password")).clear();
 		driver.findElement(By.id("login_password")).sendKeys("123@test");
 		driver.findElement(By.id("login_submit")).click();
-		// final int i = getNumberOfElements(driver, "iFrame");
-		// final WebElement ifram = driver.findElement(By.id("ifrmPr"));
-		// driver.switchTo().frame(1);
-		System.out.println(driver.getPageSource());
-		// System.out.println(ifram.getText());
 
-		boolean iframeFullyLoaded = false;
-		while (!iframeFullyLoaded) {
-			driver.switchTo().frame(1);
-			iframeFullyLoaded = verifyTextPresent("saved");
-			System.out.println(driver.getPageSource());
-			driver.switchTo().defaultContent();
+		Boolean wdw = false;
+
+		while (!wdw) {
+			System.out.println("waiting...");
+			wdw = new WebDriverWait(driver, 10).until(new ExpectedCondition<Boolean>() {
+
+				@Override
+				public Boolean apply(final WebDriver driver) {
+					final List<WebElement> iframes = driver.findElements(By.tagName("iframe"));
+					final Integer size = iframes.size();
+					System.out.println("number of current iframes [" + size + "]");
+					if (size == 3) {
+						for (final WebElement iframe : iframes) {
+							System.out.println("iframe ID: [" + iframe.getAttribute("id") + "]");
+						}
+
+					}
+					return (size == 3);
+				}
+			});
 		}
 
-		/*
-		 * final WebDriverWait wait2 = new WebDriverWait(driver, 15); wait2.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt("ifrmPr"));
-		 */
-		driver.findElement(By.id("payment-category-selection")).click();
-		driver.findElement(By.xpath("//div[@id='payment-category-selection']/div/div")).click();
-		/*
-		 * driver.findElement(By.xpath("//form[@id='form-roundabout-creditcard']/ul/li[2]/div[2]")).click(); driver.findElement(By.xpath("(//input[@name='roundaboutcvv'])[2]")).clear();
-		 * driver.findElement(By.xpath("(//input[@name='roundaboutcvv'])[2]")).sendKeys("123"); driver.findElement(By.xpath("(//button[@type='button'])[3]")).click(); // ERROR: Caught exception [ERROR: Unsupported command [selectFrame |
-		 * relative=up | ]] driver.findElement(By.id("paynow")).click();
-		 */
+		// ERROR: Caught exception [ERROR: Unsupported command [selectFrame | easyXDM_default7154_provider | ]]
+
+		// WebElement iframe = driver.findElement(By.id("ifrmPr"));
+
+		// WebElement iframe = driver.findElement(By.cssSelector("*[id ^='easyXDM_default']"));
+		// System.out.println("TAG NAME: [" + iframe.getTagName() + "]");
+		// System.out.println("iframe containing text [" + iframe.getText() + "]");
+		// driver.switchTo().frame(iframe);
+
+		// driver.findElement(By.tagName("body")).getText().contains("");
+		driver.switchTo().frame(0);
+		System.out.println(driver.getPageSource());
+		driver.switchTo().defaultContent();
+		driver.switchTo().frame(1);
+		System.out.println(driver.getPageSource());
+		driver.switchTo().defaultContent();
+		driver.switchTo().frame(2);
+		System.out.println(driver.getPageSource());
+
+		// WebDriverWait wait = new WebDriverWait(driver, 30);
+		// wait.until(ExpectedConditions.)
+		driver.findElement(By.xpath(".//*[@id='form-roundabout-creditcard']/ul/li[2]/div[2]")).click();
+		// driver.findElement(By.xpath("//form[@id='form-roundabout-creditcard']/ul/li[2]/div[2]")).click();
+		driver.findElement(By.xpath(".//*[@id='form-roundabout-creditcard']/ul/li[2]/div[3]/input")).clear();
+		driver.findElement(By.xpath(".//*[@id='form-roundabout-creditcard']/ul/li[2]/div[3]/input")).sendKeys("123");
+		driver.findElement(By.xpath("(.//*[@id='form-roundabout-creditcard']/ul/li[2]/div[4]/div[2]/button[1]")).click();
+		// ERROR: Caught exception [ERROR: Unsupported command [selectFrame | relative=up | ]]
+		driver.findElement(By.id("paynow")).click();
 	}
 
 	@After

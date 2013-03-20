@@ -40,7 +40,7 @@ public abstract class ParametrizedParentTest implements SauceOnDemandSessionIdPr
 	 * Constructs a {@link SauceOnDemandAuthentication} instance using the supplied user name/access key. To use the authentication supplied by environment variables or from an external file, use the no-arg
 	 * {@link SauceOnDemandAuthentication} constructor.
 	 */
-	protected SauceOnDemandAuthentication	authentication		= new SauceOnDemandAuthentication("ciprianileana", "54c66330-430e-4a32-be8a-ab7e2b418965");
+	protected SauceOnDemandAuthentication	authentication		= new SauceOnDemandAuthentication("martchouk", "87335815-89fd-4022-94e0-9c268f5991f9");
 
 	/**
 	 * 

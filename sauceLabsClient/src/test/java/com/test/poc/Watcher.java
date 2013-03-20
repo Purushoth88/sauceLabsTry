@@ -87,7 +87,7 @@ public class Watcher extends TestWatcher {
 		System.out.println("MUHAHAHAHAHAHAHA");
 		System.out.println("MUHAHAHAHAHAHAHA");
 		System.out.println("MUHAHAHAHAHAHAHA");
-		System.out.println("MUHAHAHAHAHAHAHA");
+		System.out.println("https://martchouk:87335815-89fd-4022-94e0-9c268f5991f9@saucelabs.com/rest/v1/martchouk/jobs/" + sessionIdProvider.getSessionId());
 	}
 
 	/**

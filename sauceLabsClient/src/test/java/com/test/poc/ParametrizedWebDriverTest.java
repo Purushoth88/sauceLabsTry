@@ -17,7 +17,6 @@ import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import com.saucelabs.junit.SauceOnDemandTestWatcher;
 import com.test.poc.core.model.CapabilityConfiguraton;
 import com.test.poc.core.parent.ParametrizedParentTest;
 
@@ -48,7 +47,7 @@ public class ParametrizedWebDriverTest extends ParametrizedParentTest {
 	 * JUnit Rule which will mark the Sauce Job as passed/failed when the test succeeds or fails.
 	 */
 	@Rule
-	public SauceOnDemandTestWatcher			resultReportingTestWatcher	= new SauceOnDemandTestWatcher(this, authentication);
+	public Watcher							resultReportingTestWatcher	= new Watcher(this, authentication);
 
 	public ParametrizedWebDriverTest(final CapabilityConfiguraton capabilityConfiguraton) {
 		this.capabilityConfiguraton = capabilityConfiguraton;

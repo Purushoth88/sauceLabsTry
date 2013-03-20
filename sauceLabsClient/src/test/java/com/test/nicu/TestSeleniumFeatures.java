@@ -7,18 +7,18 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+@Ignore
 public class TestSeleniumFeatures {
 	private WebDriver			driver;
 	private boolean				acceptNextAlert		= true;
@@ -59,7 +59,6 @@ public class TestSeleniumFeatures {
 						for (final WebElement iframe : iframes) {
 							System.out.println("iframe ID: [" + iframe.getAttribute("id") + "]");
 						}
-
 					}
 					return (size == 3);
 				}
@@ -76,12 +75,6 @@ public class TestSeleniumFeatures {
 		// driver.switchTo().frame(iframe);
 
 		// driver.findElement(By.tagName("body")).getText().contains("");
-		driver.switchTo().frame(0);
-		System.out.println(driver.getPageSource());
-		driver.switchTo().defaultContent();
-		driver.switchTo().frame(1);
-		System.out.println(driver.getPageSource());
-		driver.switchTo().defaultContent();
 		driver.switchTo().frame(2);
 		System.out.println(driver.getPageSource());
 

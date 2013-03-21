@@ -1,8 +1,10 @@
 package com.test.nicu;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
@@ -16,10 +18,11 @@ import com.thoughtworks.selenium.DefaultSelenium;
  * 
  * @author Ross Rowe
  */
+@Ignore
 public class SeleniumRCTest {
 
 	@Test
-	public void testTest() throws MalformedURLException {
+	public void testTest() throws IOException {
 		// run against Firefox v12 on Windows XP
 		final DesiredCapabilities capabilities = DesiredCapabilities.firefox();
 		capabilities.setPlatform(Platform.XP);
@@ -44,8 +47,8 @@ public class SeleniumRCTest {
 	public void testTest3() throws MalformedURLException {
 		// run against Firefox v12 on Windows XP
 		final DesiredCapabilities capabilities = DesiredCapabilities.android();
-		capabilities.setPlatform(Platform.ANDROID);
-		capabilities.setCapability("version", "6.0.2");
+		capabilities.setPlatform(Platform.LINUX);
+		capabilities.setCapability("version", "4");
 		final WebDriver driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), capabilities);
 		driver.get("http://www.amazon.com");
 		driver.quit();

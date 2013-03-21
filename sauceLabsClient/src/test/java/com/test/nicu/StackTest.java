@@ -7,6 +7,7 @@ import java.util.Stack;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -15,6 +16,7 @@ import org.junit.runners.Parameterized.Parameters;
 import sun.util.logging.resources.logging;
 
 @RunWith(value = Parameterized.class)
+@Ignore
 public class StackTest {
 	Stack<Integer>		stack;
 

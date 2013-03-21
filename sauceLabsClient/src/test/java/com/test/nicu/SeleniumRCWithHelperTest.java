@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
@@ -15,6 +16,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import com.saucelabs.common.SauceOnDemandAuthentication;
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
 import com.saucelabs.junit.SauceOnDemandTestWatcher;
+import com.saucelabs.saucerest.SauceREST;
 import com.thoughtworks.selenium.CommandProcessor;
 import com.thoughtworks.selenium.DefaultSelenium;
 
@@ -27,6 +29,7 @@ import com.thoughtworks.selenium.DefaultSelenium;
  * 
  * @author Ross Rowe
  */
+@Ignore
 public class SeleniumRCWithHelperTest implements SauceOnDemandSessionIdProvider {
 
 	/**
@@ -53,8 +56,9 @@ public class SeleniumRCWithHelperTest implements SauceOnDemandSessionIdProvider 
 
 	@Before
 	public void setUp() throws Exception {
-		final DefaultSelenium selenium = new DefaultSelenium("ondemand.saucelabs.com", 80, "{\"username\": \"" + authentication.getUsername() + "\"," + "\"access-key\": \"" + authentication.getAccessKey() + "\","
-				+ "\"os\": \"Windows 2003\"," + "\"browser\": \"firefox\"," + "\"browser-version\": \"7\"," + "\"name\": \"Testing Selenium 1 with Java on Sauce\"}", "http://saucelabs.com/");
+		final DefaultSelenium selenium = new DefaultSelenium("ondemand.saucelabs.com", 80, "{\"username\": \"" + authentication.getUsername() + "\","
+				+ "\"access-key\": \"" + authentication.getAccessKey() + "\"," + "\"os\": \"Windows 2003\"," + "\"browser\": \"firefox\","
+				+ "\"browser-version\": \"7\"," + "\"name\": \"Testing Selenium 1 with Java on Sauce\"}", "http://saucelabs.com/");
 		selenium.start();
 		this.selenium = selenium;
 		this.sessionId = getSessionIdFromSelenium();
@@ -89,6 +93,9 @@ public class SeleniumRCWithHelperTest implements SauceOnDemandSessionIdProvider 
 	public void seleniumRCWithHelper() throws Exception {
 		this.selenium.open("http://www.amazon.com");
 		assertEquals("Amazon.com: Online Shopping for Electronics, Apparel, Computers, Books, DVDs & more", this.selenium.getTitle());
+
+		final SauceREST restApi = new SauceREST("martchouk", "87335815-89fd-4022-94e0-9c268f5991f9");
+		restApi.jobFailed(sessionId);
 	}
 
 	@After

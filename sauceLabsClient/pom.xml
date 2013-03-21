@@ -66,7 +66,13 @@
 			<version>[1.0.0,)</version>
 			<scope>test</scope>
 		</dependency>
-
+		
+		<dependency>
+		  <groupId>org.apache.maven.surefire</groupId>
+		  <artifactId>maven-surefire-common</artifactId>
+		  <version>2.14</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
@@ -127,6 +133,12 @@
 				<configuration>
 					<skip>${maven-surefire.test-skip}</skip>
 					<redirectTestOutputToFile>${maven-surefire.tofile}</redirectTestOutputToFile>
+					<properties>
+				        <property>
+				          <name>listener</name>
+				          <value>com.test.nicu.JUnit4RunListener</value>
+				        </property>
+				    </properties>
 				</configuration>
 			</plugin>
 

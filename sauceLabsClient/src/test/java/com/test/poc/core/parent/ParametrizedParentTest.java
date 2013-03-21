@@ -41,12 +41,12 @@ public abstract class ParametrizedParentTest implements SauceOnDemandSessionIdPr
 	 * Constructs a {@link SauceOnDemandAuthentication} instance using the supplied user name/access key. To use the authentication supplied by environment variables or from an external file, use the no-arg
 	 * {@link SauceOnDemandAuthentication} constructor.
 	 */
-	protected SauceOnDemandAuthentication	authentication		= new SauceOnDemandAuthentication("ciprianileana", "54c66330-430e-4a32-be8a-ab7e2b418965");
+	protected SauceOnDemandAuthentication	authentication		= new SauceOnDemandAuthentication("martchouk", "87335815-89fd-4022-94e0-9c268f5991f9");
 
 	/**
 	 * Session id for the SeleniumRC/WebDriver instance - this equates to the Sauce OnDemand Job id.
 	 */
-	protected String						sessionId;
+	public String							sessionId;
 
 	/**
 	 * The default configuration file.
@@ -60,7 +60,7 @@ public abstract class ParametrizedParentTest implements SauceOnDemandSessionIdPr
 	 * @return
 	 * @throws MalformedURLException
 	 */
-	protected WebDriver provideWebDriver(CapabilityConfiguraton capabilityConfiguraton) throws MalformedURLException {
+	protected WebDriver provideWebDriver(final CapabilityConfiguraton capabilityConfiguraton) throws MalformedURLException {
 		logger.debug("Providing the WebDriver");
 		return prepareWebDriver(capabilityConfiguraton, authentication);
 	}
@@ -78,14 +78,14 @@ public abstract class ParametrizedParentTest implements SauceOnDemandSessionIdPr
 	@Parameters
 	public static Collection data() throws JSONException, IOException {
 		logger.debug("Preparing to load the profile JSON configuration file");
-		ProfileConfiguration profileConfiguration = JSONConfigurationUtils.loadProfileConfiguration(configurationFile);
-		List<CapabilityConfiguraton> capabilityConfiguratons = profileConfiguration.getCapabilities();
+		final ProfileConfiguration profileConfiguration = JSONConfigurationUtils.loadProfileConfiguration(configurationFile);
+		final List<CapabilityConfiguraton> capabilityConfiguratons = profileConfiguration.getCapabilities();
 
 		logger.debug("Preparing test data collection to be feed to the test constructor");
 		int index = 0;
-		Object[][] data = new Object[capabilityConfiguratons.size()][];
-		for (CapabilityConfiguraton capabilityConfiguraton : capabilityConfiguratons) {
-			Object[] array = new Object[] { capabilityConfiguraton };
+		final Object[][] data = new Object[capabilityConfiguratons.size()][];
+		for (final CapabilityConfiguraton capabilityConfiguraton : capabilityConfiguratons) {
+			final Object[] array = new Object[] { capabilityConfiguraton };
 			data[index] = array;
 			index++;
 		}

@@ -17,6 +17,7 @@ import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import com.saucelabs.junit.Parallelized;
 import com.test.poc.core.model.CapabilityConfiguraton;
 import com.test.poc.core.parent.ParametrizedParentTest;
 
@@ -26,7 +27,7 @@ import com.test.poc.core.parent.ParametrizedParentTest;
  * @author Ciprian I. Ileana
  * @author Nicolae Petridean
  */
-@RunWith(Parameterized.class)
+@RunWith(Parallelized.class)
 public class ParametrizedWebDriverTest extends ParametrizedParentTest {
 
 	/**

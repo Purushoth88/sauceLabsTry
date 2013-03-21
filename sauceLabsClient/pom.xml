@@ -133,12 +133,6 @@
 				<configuration>
 					<skip>${maven-surefire.test-skip}</skip>
 					<redirectTestOutputToFile>${maven-surefire.tofile}</redirectTestOutputToFile>
-					<properties>
-				        <property>
-				          <name>listener</name>
-				          <value>com.test.nicu.JUnit4RunListener</value>
-				        </property>
-				    </properties>
 				</configuration>
 			</plugin>
 

@@ -22,7 +22,7 @@ import com.test.poc.core.model.CapabilityConfiguraton;
 import com.test.poc.core.parent.ParametrizedParentTest;
 
 /**
- * Simple {@link RemoteWebDriver} test that demonstrates how to run your Selenium tests with <a href="http://saucelabs.com/ondemand">Sauce OnDemand</a>. *
+ * Sample {@link RemoteWebDriver} test that demonstrates how to run your Selenium tests with <a href="http://saucelabs.com/ondemand">Sauce OnDemand</a>. *
  * 
  * @author Ciprian I. Ileana
  * @author Nicolae Petridean
@@ -36,25 +36,33 @@ public class ParametrizedWebDriverTest extends ParametrizedParentTest {
 	private static final Logger				logger						= Logger.getLogger(ParametrizedWebDriverTest.class);
 
 	/**
-	 * 
+	 * The {@link WebDriver} to be used in the test
 	 */
 	private WebDriver						webDriver					= null;
 
 	/**
-	 * 
+	 * Profile related configuration data
 	 */
 	private final CapabilityConfiguraton	capabilityConfiguraton;
+
 	/**
-	 * JUnit Rule which will mark the Sauce Job as passed/failed when the test succeeds or fails.
+	 * JUnit Rule which will mark the Sauce Job as passed/failed when the test succeeds/fails.
 	 */
 	@Rule
 	public Watcher							resultReportingTestWatcher	= new Watcher(this, authentication);
 
+	/**
+	 * Will be feed with data provided by
+	 * 
+	 * @param capabilityConfiguraton
+	 */
 	public ParametrizedWebDriverTest(final CapabilityConfiguraton capabilityConfiguraton) {
 		this.capabilityConfiguraton = capabilityConfiguraton;
 	}
 
 	/**
+	 * Method that runs before the actual test.
+	 * 
 	 * @throws MalformedURLException
 	 */
 	@Before
@@ -65,7 +73,7 @@ public class ParametrizedWebDriverTest extends ParametrizedParentTest {
 	}
 
 	/**
-	 * 
+	 * Method that runs after the actual test.
 	 */
 	@After
 	public void tearDown() {
@@ -74,7 +82,7 @@ public class ParametrizedWebDriverTest extends ParametrizedParentTest {
 	}
 
 	/**
-	 * 
+	 * The actual test
 	 */
 	@Test
 	public void sampleTest() {

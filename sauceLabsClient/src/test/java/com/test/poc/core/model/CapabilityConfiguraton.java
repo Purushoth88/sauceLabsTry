@@ -12,10 +12,19 @@ package com.test.poc.core.model;
  */
 public class CapabilityConfiguraton {
 
+	/**
+	 * The browser name
+	 */
 	private String	browserName;
 
+	/**
+	 * The browser version
+	 */
 	private String	browserVersion;
 
+	/**
+	 * The platform
+	 */
 	private String	platform;
 
 	/**

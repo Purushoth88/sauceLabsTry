@@ -2,9 +2,9 @@
   "capabilities":
       [
         {
-          "browserName": "firefox",
-          "version": "5",
-          "platform": "XP",
+          "browserName": "internet explorer",
+          "version": "9",
+          "platform": "VISTA",
           "maxInstances": 1
         },
         {

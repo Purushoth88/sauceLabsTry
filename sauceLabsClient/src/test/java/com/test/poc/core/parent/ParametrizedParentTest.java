@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.json.JSONException;
+import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.openqa.selenium.WebDriver;
 
@@ -43,21 +44,44 @@ public abstract class ParametrizedParentTest implements SauceOnDemandSessionIdPr
 	protected SauceOnDemandAuthentication	authentication		= new SauceOnDemandAuthentication("martchouk", "87335815-89fd-4022-94e0-9c268f5991f9");
 
 	/**
-	 * 
+	 * Session id for the SeleniumRC/WebDriver instance - this equates to the Sauce OnDemand Job id.
 	 */
 	public String							sessionId;
 
+	/**
+	 * The default configuration file.
+	 */
 	protected static String					configurationFile	= "\\profiles\\saucelabs.poc.profile.DEVELOPMENT2.json";
 
+	/**
+	 * Based on the provided {@link CapabilityConfiguraton} will provide the proper {@link WebDriver}
+	 * 
+	 * @param capabilityConfiguraton
+	 * @return
+	 * @throws MalformedURLException
+	 */
 	protected WebDriver provideWebDriver(final CapabilityConfiguraton capabilityConfiguraton) throws MalformedURLException {
+		logger.debug("Providing the WebDriver");
 		return prepareWebDriver(capabilityConfiguraton, authentication);
 	}
 
+	/**
+	 * Loads the profile configuration and provides parameters to be injected into the test class constructor by {@link Parameterized}.
+	 * 
+	 * @return a {@link Collection} with the parameterized test data to be feed into the test class constructor by {@link Parameterized}.
+	 * @throws JSONException
+	 *             if the JSON configuration file doesn't comply to the JSON format
+	 * @throws IOException
+	 *             if problems occur while locating or reading the configuration file
+	 */
+	@SuppressWarnings("rawtypes")
 	@Parameters
 	public static Collection data() throws JSONException, IOException {
+		logger.debug("Preparing to load the profile JSON configuration file");
 		final ProfileConfiguration profileConfiguration = JSONConfigurationUtils.loadProfileConfiguration(configurationFile);
 		final List<CapabilityConfiguraton> capabilityConfiguratons = profileConfiguration.getCapabilities();
 
+		logger.debug("Preparing test data collection to be feed to the test constructor");
 		int index = 0;
 		final Object[][] data = new Object[capabilityConfiguratons.size()][];
 		for (final CapabilityConfiguraton capabilityConfiguraton : capabilityConfiguratons) {
@@ -66,10 +90,15 @@ public abstract class ParametrizedParentTest implements SauceOnDemandSessionIdPr
 			index++;
 		}
 
-		final List<Object[]> lo = Arrays.asList(data);
-		return lo;
+		List<Object[]> dataCollection = Arrays.asList(data);
+		return dataCollection;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.saucelabs.common.SauceOnDemandSessionIdProvider#getSessionId()
+	 */
 	@Override
 	public String getSessionId() {
 		return sessionId;

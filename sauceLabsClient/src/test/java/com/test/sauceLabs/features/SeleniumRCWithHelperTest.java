@@ -1,4 +1,4 @@
-package com.test.nicu;
+package com.test.sauceLabs.features;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -10,8 +10,9 @@ import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.saucelabs.common.SauceOnDemandAuthentication;
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
@@ -21,14 +22,12 @@ import com.thoughtworks.selenium.CommandProcessor;
 import com.thoughtworks.selenium.DefaultSelenium;
 
 /**
- * Simple {@link RemoteWebDriver} test that demonstrates how to run your Selenium tests with <a href="http://saucelabs.com/ondemand">Sauce OnDemand</a>.
+ * Simple test used to test integration with Selenium and SauceLabs
  * 
- * This test also includes the <a href="">Sauce JUnit</a> helper classes, which will use the Sauce REST API to mark the Sauce Job as passed/failed.
- * 
- * In order to use the {@link SauceOnDemandTestWatcher}, the test must implement the {@link SauceOnDemandSessionIdProvider} interface.
- * 
- * @author Ross Rowe
+ * @author Nicolae.Petridean
+ * @author Ciprian I. Ileana
  */
+@RunWith(value = Parameterized.class)
 @Ignore
 public class SeleniumRCWithHelperTest implements SauceOnDemandSessionIdProvider {
 

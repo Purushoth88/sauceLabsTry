@@ -1,4 +1,4 @@
-package com.test.nicu;
+package com.test.sauceLabs.features;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -13,18 +13,19 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import sun.util.logging.resources.logging;
-
+/**
+ * Simple test used to test integration with Selenium and SauceLabs
+ * 
+ * @author Nicolae.Petridean
+ * @author Ciprian I. Ileana
+ */
 @RunWith(value = Parameterized.class)
 @Ignore
 public class StackTest {
-	Stack<Integer>		stack;
-
-	private final int	number;
+	Stack<Integer>	stack;
 
 	public StackTest(final int number) {
 		System.out.println(number);
-		this.number = number;
 	}
 
 	@Parameters

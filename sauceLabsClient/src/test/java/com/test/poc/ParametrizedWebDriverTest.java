@@ -13,7 +13,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -87,7 +86,5 @@ public class ParametrizedWebDriverTest extends ParametrizedParentTest {
 	@Test
 	public void sampleTest() {
 		logger.info("ParametrizedWebDriverTest - sampleTest");
-		final boolean b = true;
-		Assert.assertTrue(!b);
 	}
 }

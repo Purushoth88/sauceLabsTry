@@ -1,23 +1,22 @@
 package com.test.poc;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
+
 import com.saucelabs.common.SauceOnDemandAuthentication;
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
 import com.saucelabs.common.Utils;
 import com.saucelabs.saucerest.SauceREST;
-import org.junit.rules.TestWatcher;
-import org.junit.runner.Description;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
- * {@link TestWatcher} subclass that will mark a Sauce OnDemand job as passed or failed depending on the result of the test case being executed.
+ * Test Watcher used to enrigh test reports with test data from SauceLabs.
  * 
- * @author see {@link github} for original
- * @author Ross Rowe - modifications to use {@link SauceOnDemandAuthentication}
+ * @author Nicolae.Petridean
+ * @author Ciprian I. Ileana
  */
 public class Watcher extends TestWatcher {
 

@@ -1,4 +1,4 @@
-package com.test.nicu;
+package com.test.sauceLabs.features;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -6,6 +6,8 @@ import java.net.URL;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -14,10 +16,12 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import com.thoughtworks.selenium.DefaultSelenium;
 
 /**
- * Simple {@link DefaultSelenium} test that demonstrates how to run your Selenium tests with <a href="http://saucelabs.com/ondemand">Sauce OnDemand</a>. *
+ * Simple test used to test integration with Selenium and SauceLabs
  * 
- * @author Ross Rowe
+ * @author Nicolae.Petridean
+ * @author Ciprian I. Ileana
  */
+@RunWith(value = Parameterized.class)
 @Ignore
 public class SeleniumRCTest {
 

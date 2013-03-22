@@ -17,7 +17,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.test.poc.sauceLabs.core.model.CapabilityConfiguraton;
 import com.test.poc.sauceLabs.core.parent.ParametrizedParentTest;
-import com.test.poc.sauceLabs.util.TestRuleWatcher;
+import com.test.poc.sauceLabs.util.watchers.TestRuleWatcher;
 
 /**
  * Sample {@link RemoteWebDriver} test that demonstrates how to run your Selenium tests with <a href="http://saucelabs.com/ondemand">Sauce OnDemand</a>. *

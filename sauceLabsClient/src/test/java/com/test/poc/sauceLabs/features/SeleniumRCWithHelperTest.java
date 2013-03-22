@@ -3,6 +3,7 @@ package com.test.poc.sauceLabs.features;
 import static junit.framework.Assert.assertEquals;
 
 import java.lang.reflect.Field;
+import java.net.MalformedURLException;
 
 import org.junit.After;
 import org.junit.Before;
@@ -49,25 +50,43 @@ public class SeleniumRCWithHelperTest implements SauceOnDemandSessionIdProvider 
 	public @Rule
 	TestName							testName					= new TestName();
 
+	/**
+	 * Instance of the default implementation of the Selenium interface
+	 */
 	private DefaultSelenium				selenium;
 
+	/**
+	 * Session id for the SeleniumRC/WebDriver instance - this equates to the Sauce OnDemand Job id.
+	 */
 	private String						sessionId;
 
+	/**
+	 * Method that runs before the actual test.
+	 * 
+	 * @throws MalformedURLException
+	 */
 	@Before
 	public void setUp() throws Exception {
-		final DefaultSelenium selenium = new DefaultSelenium("ondemand.saucelabs.com", 80, "{\"username\": \"" + authentication.getUsername() + "\","
-				+ "\"access-key\": \"" + authentication.getAccessKey() + "\"," + "\"os\": \"Windows 2003\"," + "\"browser\": \"firefox\","
-				+ "\"browser-version\": \"7\"," + "\"name\": \"Testing Selenium 1 with Java on Sauce\"}", "http://saucelabs.com/");
+		final DefaultSelenium selenium = new DefaultSelenium("ondemand.saucelabs.com", 80, "{\"username\": \"" + authentication.getUsername() + "\"," + "\"access-key\": \"" + authentication.getAccessKey() + "\","
+				+ "\"os\": \"Windows 2003\"," + "\"browser\": \"firefox\"," + "\"browser-version\": \"7\"," + "\"name\": \"Testing Selenium 1 with Java on Sauce\"}", "http://saucelabs.com/");
 		selenium.start();
 		this.selenium = selenium;
 		this.sessionId = getSessionIdFromSelenium();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.saucelabs.common.SauceOnDemandSessionIdProvider#getSessionId()
+	 */
 	@Override
 	public String getSessionId() {
 		return sessionId;
 	}
 
+	/**
+	 * @return
+	 */
 	public String getSessionIdFromSelenium() {
 		try {
 			final Field commandProcessorField = DefaultSelenium.class.getDeclaredField("commandProcessor");
@@ -79,15 +98,18 @@ public class SeleniumRCWithHelperTest implements SauceOnDemandSessionIdProvider 
 			if (id != null) {
 				return id.toString();
 			}
-		} catch (final NoSuchFieldException e) {
-
-		} catch (final IllegalAccessException e) {
-
+		} catch (final NoSuchFieldException noSuchFieldException) {
+			// TODO at least log it
+		} catch (final IllegalAccessException illegalAccessException) {
+			// TODO at least log it
 		}
 		return null;
 
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	@Test
 	public void seleniumRCWithHelper() throws Exception {
 		this.selenium.open("http://www.amazon.com");
@@ -97,6 +119,11 @@ public class SeleniumRCWithHelperTest implements SauceOnDemandSessionIdProvider 
 		restApi.jobFailed(sessionId);
 	}
 
+	/**
+	 * Method that runs after the actual test.
+	 * 
+	 * @throws Exception
+	 */
 	@After
 	public void tearDown() throws Exception {
 		this.selenium.stop();

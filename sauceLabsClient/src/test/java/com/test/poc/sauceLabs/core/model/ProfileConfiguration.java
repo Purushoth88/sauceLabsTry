@@ -15,6 +15,9 @@ import java.util.List;
  */
 public class ProfileConfiguration {
 
+	/**
+	 * List of capabilities present in the profile.
+	 */
 	private List<CapabilityConfiguraton>	capabilities	= new ArrayList<CapabilityConfiguraton>();
 
 	/**

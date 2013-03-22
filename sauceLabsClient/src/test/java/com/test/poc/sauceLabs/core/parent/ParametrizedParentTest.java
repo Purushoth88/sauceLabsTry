@@ -21,7 +21,7 @@ import com.saucelabs.common.SauceOnDemandAuthentication;
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
 import com.test.poc.sauceLabs.core.model.CapabilityConfiguraton;
 import com.test.poc.sauceLabs.core.model.ProfileConfiguration;
-import com.test.poc.sauceLabs.util.JSONConfigurationUtils;
+import com.test.poc.sauceLabs.util.config.JSONConfigurationUtils;
 
 /**
  * Abstract parent class for all SauceLabs related tests. It loads and provides to the test all the capability configuration resulted from the provided configuration file.
@@ -51,7 +51,7 @@ public abstract class ParametrizedParentTest implements SauceOnDemandSessionIdPr
 	/**
 	 * The default configuration file.
 	 */
-	protected static String					configurationFile	= "\\profiles\\saucelabs.poc.profile.DEVELOPMENT2.json";
+	protected static String					configurationFile	= "\\profiles\\saucelabs.poc.profile.json";
 
 	/**
 	 * Based on the provided {@link CapabilityConfiguraton} will provide the proper {@link WebDriver}

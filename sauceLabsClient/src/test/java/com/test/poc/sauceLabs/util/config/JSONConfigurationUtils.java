@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.test.poc.sauceLabs.util;
+package com.test.poc.sauceLabs.util.config;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -20,6 +20,7 @@ import com.test.poc.sauceLabs.core.model.ProfileConfiguration;
 
 /**
  * @author Ciprian I. Ileana
+ * @author Nicolae Petridean
  * 
  */
 public class JSONConfigurationUtils {

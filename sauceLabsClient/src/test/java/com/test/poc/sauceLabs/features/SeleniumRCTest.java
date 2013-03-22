@@ -23,6 +23,9 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 @Ignore
 public class SeleniumRCTest {
 
+	/**
+	 * @throws IOException
+	 */
 	@Test
 	public void testTest() throws IOException {
 		// run against Firefox v12 on Windows XP
@@ -34,6 +37,9 @@ public class SeleniumRCTest {
 		driver.quit();
 	}
 
+	/**
+	 * @throws MalformedURLException
+	 */
 	@Test
 	public void testTest2() throws MalformedURLException {
 		// run against Firefox v12 on Windows XP
@@ -45,6 +51,9 @@ public class SeleniumRCTest {
 		driver.quit();
 	}
 
+	/**
+	 * @throws MalformedURLException
+	 */
 	@Test
 	public void testTest3() throws MalformedURLException {
 		// run against Firefox v12 on Windows XP
@@ -55,9 +64,4 @@ public class SeleniumRCTest {
 		driver.get("http://www.amazon.com");
 		driver.quit();
 	}
-
-	/*
-	 * @After public void tearDown() throws Exception { this.selenium.stop(); }
-	 */
-
 }

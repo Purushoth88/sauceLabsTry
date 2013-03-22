@@ -1,4 +1,4 @@
-package com.test.poc.sauceLabs.util;
+package com.test.poc.sauceLabs.util.watchers;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -11,6 +11,7 @@ import com.saucelabs.common.SauceOnDemandAuthentication;
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
 import com.saucelabs.common.Utils;
 import com.saucelabs.saucerest.SauceREST;
+import com.test.poc.sauceLabs.util.rest.SauceRestUtility;
 
 /**
  * Test Watcher used to enrich test reports with test data from SauceLabs.

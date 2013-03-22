@@ -1,4 +1,4 @@
-package com.test.poc.sauceLabs.util.surefireListener;
+package com.test.poc.sauceLabs.util.surefire.listeners;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -107,12 +107,12 @@ public class JUnit4RunListener extends org.junit.runner.notification.RunListener
 		String displayName = "";
 		try {
 			displayName += description.getTestClass().getField("sessionId").toGenericString();
-		} catch (final SecurityException e) {
+		} catch (final SecurityException securityException) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (final NoSuchFieldException e) {
+			securityException.printStackTrace();
+		} catch (final NoSuchFieldException noSuchFieldException) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			noSuchFieldException.printStackTrace();
 		}
 		final Boolean failure = failureFlag.get();
 		if (failure == null) {
@@ -131,11 +131,11 @@ public class JUnit4RunListener extends org.junit.runner.notification.RunListener
 
 	public static String extractClassName(final Description description) {
 		final String displayName = description.getDisplayName();
-		final Matcher m = PARENS.matcher(displayName);
-		if (!m.find()) {
+		final Matcher matcher = PARENS.matcher(displayName);
+		if (!matcher.find()) {
 			return displayName;
 		}
-		return m.group(1);
+		return matcher.group(1);
 	}
 
 	public static void rethrowAnyTestMechanismFailures(final Result run) throws TestSetFailedException {

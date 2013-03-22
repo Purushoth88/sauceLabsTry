@@ -5,14 +5,19 @@ package com.test.poc.sauceLabs.util;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.saucelabs.common.SauceOnDemandAuthentication;
 import com.test.poc.sauceLabs.core.model.CapabilityConfiguraton;
@@ -27,7 +32,12 @@ import com.test.poc.sauceLabs.core.model.CapabilityConfiguraton;
 public class TestUtil {
 
 	/**
-	 * Prevent instantiation of utils class
+	 * class logger.
+	 */
+	private static final Logger	logger	= Logger.getLogger(TestUtil.class);
+
+	/**
+	 * Prevent instantiation of utility class
 	 */
 	private TestUtil() {
 	}
@@ -39,8 +49,7 @@ public class TestUtil {
 	 * @return the dynamically created {@link DesiredCapabilities}
 	 */
 	public static DesiredCapabilities prepareDesiredCapabilities(final CapabilityConfiguraton capabilityConfiguraton) {
-		final DesiredCapabilities desiredCapabilities = new DesiredCapabilities(capabilityConfiguraton.getBrowserName(),
-				capabilityConfiguraton.getBrowserVersion(), Platform.valueOf(capabilityConfiguraton.getPlatform()));
+		final DesiredCapabilities desiredCapabilities = new DesiredCapabilities(capabilityConfiguraton.getBrowserName(), capabilityConfiguraton.getBrowserVersion(), Platform.valueOf(capabilityConfiguraton.getPlatform()));
 
 		return desiredCapabilities;
 
@@ -57,14 +66,12 @@ public class TestUtil {
 	 * @throws MalformedURLException
 	 *             if the dynamically created URL when initializing the {@link RemoteWebDriver} specifies an unknown protocol.
 	 */
-	public static WebDriver prepareWebDriver(final CapabilityConfiguraton capabilityConfiguraton, final SauceOnDemandAuthentication authentication)
-			throws MalformedURLException {
+	public static WebDriver prepareWebDriver(final CapabilityConfiguraton capabilityConfiguraton, final SauceOnDemandAuthentication authentication) throws MalformedURLException {
 		WebDriver webDriver = null;
 
 		final DesiredCapabilities desiredCapabilities = TestUtil.prepareDesiredCapabilities(capabilityConfiguraton);
 
-		webDriver = new RemoteWebDriver(new URL("http://" + authentication.getUsername() + ":" + authentication.getAccessKey()
-				+ "@ondemand.saucelabs.com:80/wd/hub"), desiredCapabilities);
+		webDriver = new RemoteWebDriver(new URL("http://" + authentication.getUsername() + ":" + authentication.getAccessKey() + "@ondemand.saucelabs.com:80/wd/hub"), desiredCapabilities);
 		return webDriver;
 	}
 
@@ -78,12 +85,16 @@ public class TestUtil {
 	 * @return
 	 */
 	public static boolean isElementPresent(final By by, final WebDriver webDriver) {
+		boolean isElementPresent = false;
+
 		try {
 			webDriver.findElement(by);
-			return true;
-		} catch (final NoSuchElementException e) {
-			return false;
+			isElementPresent = true;
+		} catch (final NoSuchElementException noSuchElementException) {
+			logger.debug("Element wasn't found [" + noSuchElementException.getMessage() + "]");
 		}
+
+		return isElementPresent;
 	}
 
 	/**
@@ -119,14 +130,43 @@ public class TestUtil {
 	}
 
 	/**
-	 * Utility method to read the number of elements of a specific kind.
+	 * Utility method to determine the total number of elements ({@link WebElements}), identified through a given tagName, within the current page.
 	 * 
 	 * @param webDriver
-	 * @param element
-	 * @return
+	 *            {@link WebDriver} to be used
+	 * @param tagName
+	 *            The element's tagName
+	 * @return the number of elements ({@link WebElements}) found
 	 */
-	public static int getNumberOfElements(final WebDriver webDriver, final String element) {
-		return webDriver.findElements(By.tagName(element)).size();
+	public static int getNumberOfElements(final WebDriver webDriver, final String tagName) {
+		return webDriver.findElements(By.tagName(tagName)).size();
+	}
+
+	public static void waitForIframes(final WebDriver webDriver, final int expectedCount) {
+		Boolean webDriverWaiting = false;
+
+		while (!webDriverWaiting) {
+			logger.debug("waiting...");
+			webDriverWaiting = new WebDriverWait(webDriver, 10).until(new ExpectedCondition<Boolean>() {
+
+				/**
+				 * @param driver
+				 * @return
+				 */
+				@Override
+				public Boolean apply(final WebDriver driver) {
+					final List<WebElement> iframes = driver.findElements(By.tagName("iframe"));
+					final Integer size = iframes.size();
+					logger.debug("number of current iframes [" + size + "]");
+					if (size == expectedCount) {
+						for (final WebElement iframe : iframes) {
+							logger.debug("iframe ID: [" + iframe.getAttribute("id") + "]");
+						}
+					}
+					return (size == expectedCount);
+				}
+			});
+		}
 	}
 
 }

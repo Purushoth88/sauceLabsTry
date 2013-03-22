@@ -1,4 +1,4 @@
-package com.test.poc.sauceLabs.util;
+package com.test.poc.sauceLabs.util.rest;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -15,19 +15,25 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
+import org.apache.log4j.Logger;
 import org.json.simple.JSONValue;
 
 import sun.misc.BASE64Encoder;
 
 /**
  * Simple Java API that invokes the Sauce REST API.
+ * 
+ * @author Nicolae Petridean
+ * @author Ciprian I. Ileana
+ * 
  */
 public class SauceRestUtility {
 
-	private static final Logger	logger					= Logger.getLogger(SauceRestUtility.class.getName());
+	/**
+	 * class logger.
+	 */
+	private static final Logger	logger					= Logger.getLogger(SauceRestUtility.class);
 
 	protected String			username;
 	protected String			accessKey;
@@ -40,6 +46,10 @@ public class SauceRestUtility {
 	private static final String	DOWNLOAD_LOG_FORMAT		= JOB_RESULT_FORMAT + "/results/video.flv";
 	private static final String	DATE_FORMAT				= "yyyyMMdd_HHmmSS";
 
+	/**
+	 * @param username
+	 * @param accessKey
+	 */
 	public SauceRestUtility(final String username, final String accessKey) {
 		this.username = username;
 		this.accessKey = accessKey;
@@ -79,8 +89,6 @@ public class SauceRestUtility {
 	 * @param jobId
 	 *            the Sauce Job Id, typically equal to the Selenium/WebDriver sessionId
 	 * @param location
-	 * @throws IOException
-	 *             thrown if an error occurs invoking the REST request
 	 */
 	public void downloadVideo(final String jobId, final String location) {
 		final URL restEndpoint = composeRestVideoUrl(jobId);
@@ -97,8 +105,8 @@ public class SauceRestUtility {
 		URL restEndpoint = null;
 		try {
 			restEndpoint = new URL(String.format(DOWNLOAD_VIDEO_FORMAT, username, jobId));
-		} catch (final MalformedURLException e) {
-			logger.log(Level.WARNING, "Error constructing Sauce URL", e);
+		} catch (final MalformedURLException malformedURLException) {
+			logger.warn("Error constructing Sauce URL", malformedURLException);
 		}
 		return restEndpoint;
 	}
@@ -109,8 +117,7 @@ public class SauceRestUtility {
 	 * @param jobId
 	 *            the Sauce Job Id, typically equal to the Selenium/WebDriver sessionId
 	 * @param location
-	 * @throws IOException
-	 *             thrown if an error occurs invoking the REST request
+	 * @param location
 	 */
 	public void downloadLog(final String jobId, final String location) {
 		final URL restEndpoint = composeJobLogUrl(jobId);
@@ -121,15 +128,14 @@ public class SauceRestUtility {
 	 * test log url.
 	 * 
 	 * @param jobId
-	 * @param restEndpoint
 	 * @return
 	 */
 	public URL composeJobLogUrl(final String jobId) {
 		URL restEndpoint = null;
 		try {
 			restEndpoint = new URL(String.format(DOWNLOAD_LOG_FORMAT, username, jobId));
-		} catch (final MalformedURLException e) {
-			logger.log(Level.WARNING, "Error constructing Sauce URL", e);
+		} catch (final MalformedURLException malformedURLException) {
+			logger.warn("Error constructing Sauce URL", malformedURLException);
 		}
 		return restEndpoint;
 	}
@@ -147,15 +153,14 @@ public class SauceRestUtility {
 
 	/**
 	 * @param path
-	 * @param restEndpoint
 	 * @return
 	 */
 	public URL composeUserTestResultsUrl(final String path) {
 		URL restEndpoint = null;
 		try {
 			restEndpoint = new URL(String.format(USER_RESULT_FORMAT, username, path));
-		} catch (final MalformedURLException e) {
-			logger.log(Level.WARNING, "Error constructing Sauce URL", e);
+		} catch (final MalformedURLException malformedURLException) {
+			logger.warn("Error constructing Sauce URL", malformedURLException);
 		}
 		return restEndpoint;
 	}
@@ -180,12 +185,16 @@ public class SauceRestUtility {
 	public URL composeJobInfoUrl(final String jobId, URL restEndpoint) {
 		try {
 			restEndpoint = new URL(String.format(JOB_RESULT_FORMAT, username, jobId));
-		} catch (final MalformedURLException e) {
-			logger.log(Level.WARNING, "Error constructing Sauce URL", e);
+		} catch (final MalformedURLException malformedURLException) {
+			logger.warn("Error constructing Sauce URL", malformedURLException);
 		}
 		return restEndpoint;
 	}
 
+	/**
+	 * @param restEndpoint
+	 * @return
+	 */
 	public String retrieveResults(final URL restEndpoint) {
 		BufferedReader reader = null;
 		final StringBuilder builder = new StringBuilder();
@@ -201,19 +210,24 @@ public class SauceRestUtility {
 			while ((inputLine = reader.readLine()) != null) {
 				builder.append(inputLine);
 			}
-		} catch (final IOException e) {
-			logger.log(Level.WARNING, "Error retrieving Sauce Results", e);
+		} catch (final IOException ioException) {
+			logger.warn("Error retrieving Sauce Results", ioException);
 		}
 		try {
 			if (reader != null) {
 				reader.close();
 			}
-		} catch (final IOException e) {
-			logger.log(Level.WARNING, "Error closing Sauce input stream", e);
+		} catch (final IOException ioException) {
+			logger.warn("Error closing Sauce input stream", ioException);
 		}
 		return builder.toString();
 	}
 
+	/**
+	 * @param jobId
+	 * @param location
+	 * @param restEndpoint
+	 */
 	private void downloadFile(final String jobId, final String location, final URL restEndpoint) {
 		try {
 			final HttpURLConnection connection = (HttpURLConnection) restEndpoint.openConnection();
@@ -239,11 +253,15 @@ public class SauceRestUtility {
 				out.write(i);
 			}
 			out.flush();
-		} catch (final IOException e) {
-			logger.log(Level.WARNING, "Error downloading Sauce Results");
+		} catch (final IOException ioException) {
+			logger.warn("Error downloading Sauce Results", ioException);
 		}
 	}
 
+	/**
+	 * @param jobId
+	 * @param updates
+	 */
 	public void updateJobInfo(final String jobId, final Map<String, Object> updates) {
 		HttpURLConnection postBack = null;
 		try {
@@ -255,20 +273,24 @@ public class SauceRestUtility {
 			postBack.setRequestProperty("Authorization", auth);
 			final String jsonText = JSONValue.toJSONString(updates);
 			postBack.getOutputStream().write(jsonText.getBytes());
-		} catch (final IOException e) {
-			logger.log(Level.WARNING, "Error updating Sauce Results", e);
+		} catch (final IOException ioException) {
+			logger.warn("Error updating Sauce Results", ioException);
 		}
 
 		try {
 			if (postBack != null) {
 				postBack.getInputStream().close();
 			}
-		} catch (final IOException e) {
-			logger.log(Level.WARNING, "Error closing result stream", e);
+		} catch (final IOException ioException) {
+			logger.warn("Error closing result stream", ioException);
 		}
 
 	}
 
+	/**
+	 * @return
+	 */
+	@SuppressWarnings("restriction")
 	private String encodeAuthentication() {
 		String auth = username + ":" + accessKey;
 		// Handle long strings encoded using BASE64Encoder - see http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6947917

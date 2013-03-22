@@ -1,4 +1,4 @@
-package com.test.sauceLabs.features;
+package com.test.poc.sauceLabs.util.surefireListener;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -103,6 +103,7 @@ public class JUnit4RunListener extends org.junit.runner.notification.RunListener
 	 */
 	@Override
 	public void testFinished(final Description description) throws Exception {
+		@SuppressWarnings("unused")
 		String displayName = "";
 		try {
 			displayName += description.getTestClass().getField("sessionId").toGenericString();

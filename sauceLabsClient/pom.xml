@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>sauceLabsClient</artifactId>
-	<groupId>com.test.nicu</groupId>
+	<groupId>com.test.sauceLabs</groupId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>sauce_quickstart</name>
-	<description>A sample Maven project that demonstrates how to integrate Sauce OnDemand with SeleniumRC tests that run using JUnit</description>
+	<name>SauceLabs Proof Of Concept</name>
+	<description>A sample Maven project that demonstrates how to integrate Sauce OnDemand with Selenium tests that run using JUnit</description>
 
 	<licenses>
 		<license>

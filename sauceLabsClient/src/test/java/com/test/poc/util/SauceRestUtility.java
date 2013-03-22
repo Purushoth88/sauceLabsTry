@@ -36,6 +36,7 @@ public class SauceRestUtility {
 	private static final String	USER_RESULT_FORMAT		= RESTURL + "/%2$s";
 	private static final String	JOB_RESULT_FORMAT		= RESTURL + "/jobs/%2$s";
 	private static final String	DOWNLOAD_VIDEO_FORMAT	= JOB_RESULT_FORMAT + "/results/video.flv";
+	// TODO Corect link : Fix it https://martchouk:87335815-89fd-4022-94e0-9c268f5991f9@saucelabs.com/jobs/d133e0fef6c94c99bff3435a83a0f757/video_d133e0fef6c94c99bff3435a83a0f757.flv
 	private static final String	DOWNLOAD_LOG_FORMAT		= JOB_RESULT_FORMAT + "/results/video.flv";
 	private static final String	DATE_FORMAT				= "yyyyMMdd_HHmmSS";
 

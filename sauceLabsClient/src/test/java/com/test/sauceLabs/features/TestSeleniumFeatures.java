@@ -10,9 +10,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -32,24 +30,27 @@ import com.test.poc.core.parent.ParametrizedParentTest;
  */
 @RunWith(Parallelized.class)
 public class TestSeleniumFeatures extends ParametrizedParentTest {
+
+	/**
+	 * Selenoum generic web driver.
+	 */
 	private WebDriver						webDriver;
-	private boolean							acceptNextAlert		= true;
-	private final StringBuffer				verificationErrors	= new StringBuffer();
+
+	/**
+	 * String buffer to hold valiadtion errors.
+	 */
+	private final StringBuffer				verificationErrors			= new StringBuffer();
 
 	/**
 	 * Profile related configuration data
 	 */
 	private final CapabilityConfiguraton	capabilityConfiguraton;
 
-	public static int getNumberOfElements(final WebDriver webDriver, final String element) {
-		return webDriver.findElements(By.tagName(element)).size();
-	}
-
 	/**
 	 * JUnit Rule which will mark the Sauce Job as passed/failed when the test succeeds/fails.
 	 */
 	@Rule
-	public Watcher	resultReportingTestWatcher	= new Watcher(this, authentication);
+	public Watcher							resultReportingTestWatcher	= new Watcher(this, authentication);
 
 	/**
 	 * Will be feed with data provided by
@@ -144,6 +145,11 @@ public class TestSeleniumFeatures extends ParametrizedParentTest {
 		webDriver.findElement(By.id("paynow")).click();
 	}
 
+	/**
+	 * test down method.
+	 * 
+	 * @throws Exception
+	 */
 	@After
 	public void tearDown() throws Exception {
 		webDriver.quit();
@@ -153,30 +159,4 @@ public class TestSeleniumFeatures extends ParametrizedParentTest {
 		}
 	}
 
-	private boolean isElementPresent(final By by) {
-		try {
-			webDriver.findElement(by);
-			return true;
-		} catch (final NoSuchElementException e) {
-			return false;
-		}
-	}
-
-	public boolean verifyTextPresent(final String text) {
-		return webDriver.findElement(By.tagName("body")).getText().contains(text);
-	}
-
-	private String closeAlertAndGetItsText() {
-		try {
-			final Alert alert = webDriver.switchTo().alert();
-			if (acceptNextAlert) {
-				alert.accept();
-			} else {
-				alert.dismiss();
-			}
-			return alert.getText();
-		} finally {
-			acceptNextAlert = true;
-		}
-	}
 }

@@ -6,6 +6,9 @@ package com.test.poc.util;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -35,8 +38,9 @@ public class TestUtil {
 	 * @param capabilityConfiguraton
 	 * @return the dynamically created {@link DesiredCapabilities}
 	 */
-	public static DesiredCapabilities prepareDesiredCapabilities(CapabilityConfiguraton capabilityConfiguraton) {
-		DesiredCapabilities desiredCapabilities = new DesiredCapabilities(capabilityConfiguraton.getBrowserName(), capabilityConfiguraton.getBrowserVersion(), Platform.valueOf(capabilityConfiguraton.getPlatform()));
+	public static DesiredCapabilities prepareDesiredCapabilities(final CapabilityConfiguraton capabilityConfiguraton) {
+		final DesiredCapabilities desiredCapabilities = new DesiredCapabilities(capabilityConfiguraton.getBrowserName(),
+				capabilityConfiguraton.getBrowserVersion(), Platform.valueOf(capabilityConfiguraton.getPlatform()));
 
 		return desiredCapabilities;
 
@@ -53,13 +57,76 @@ public class TestUtil {
 	 * @throws MalformedURLException
 	 *             if the dynamically created URL when initializing the {@link RemoteWebDriver} specifies an unknown protocol.
 	 */
-	public static WebDriver prepareWebDriver(CapabilityConfiguraton capabilityConfiguraton, SauceOnDemandAuthentication authentication) throws MalformedURLException {
+	public static WebDriver prepareWebDriver(final CapabilityConfiguraton capabilityConfiguraton, final SauceOnDemandAuthentication authentication)
+			throws MalformedURLException {
 		WebDriver webDriver = null;
 
-		DesiredCapabilities desiredCapabilities = TestUtil.prepareDesiredCapabilities(capabilityConfiguraton);
+		final DesiredCapabilities desiredCapabilities = TestUtil.prepareDesiredCapabilities(capabilityConfiguraton);
 
-		webDriver = new RemoteWebDriver(new URL("http://" + authentication.getUsername() + ":" + authentication.getAccessKey() + "@ondemand.saucelabs.com:80/wd/hub"), desiredCapabilities);
+		webDriver = new RemoteWebDriver(new URL("http://" + authentication.getUsername() + ":" + authentication.getAccessKey()
+				+ "@ondemand.saucelabs.com:80/wd/hub"), desiredCapabilities);
 		return webDriver;
+	}
+
+	/**
+	 * Utility method to check text present on page.
+	 * 
+	 * @param webDriver
+	 *            : driver to run the test check
+	 * @param by
+	 *            : By static class.
+	 * @return
+	 */
+	public static boolean isElementPresent(final By by, final WebDriver webDriver) {
+		try {
+			webDriver.findElement(by);
+			return true;
+		} catch (final NoSuchElementException e) {
+			return false;
+		}
+	}
+
+	/**
+	 * Utility method to check text present on page.
+	 * 
+	 * @param text
+	 * @param webDriver
+	 * @return
+	 */
+	public static boolean verifyTextPresent(final String text, final WebDriver webDriver) {
+		return webDriver.findElement(By.tagName("body")).getText().contains(text);
+	}
+
+	/**
+	 * Utility method to read Alert test, and closes it afterwards.
+	 * 
+	 * @param acceptNextAlert
+	 * @param webDriver
+	 * @return
+	 */
+	public static String closeAlertAndGetItsText(boolean acceptNextAlert, final WebDriver webDriver) {
+		try {
+			final Alert alert = webDriver.switchTo().alert();
+			if (acceptNextAlert) {
+				alert.accept();
+			} else {
+				alert.dismiss();
+			}
+			return alert.getText();
+		} finally {
+			acceptNextAlert = true;
+		}
+	}
+
+	/**
+	 * Utility method to read the number of elements of a specific kind.
+	 * 
+	 * @param webDriver
+	 * @param element
+	 * @return
+	 */
+	public static int getNumberOfElements(final WebDriver webDriver, final String element) {
+		return webDriver.findElements(By.tagName(element)).size();
 	}
 
 }

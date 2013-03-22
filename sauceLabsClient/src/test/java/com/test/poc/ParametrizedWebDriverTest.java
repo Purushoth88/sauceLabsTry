@@ -5,8 +5,6 @@ package com.test.poc;
 
 import java.net.MalformedURLException;
 
-import junit.framework.Assert;
-
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;

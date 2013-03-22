@@ -13,7 +13,7 @@ import com.saucelabs.common.Utils;
 import com.saucelabs.saucerest.SauceREST;
 
 /**
- * Test Watcher used to enrigh test reports with test data from SauceLabs.
+ * Test Watcher used to enrich test reports with test data from SauceLabs.
  * 
  * @author Nicolae.Petridean
  * @author Ciprian I. Ileana
@@ -56,7 +56,7 @@ public class Watcher extends TestWatcher {
 	}
 
 	/**
-	 * Invoked if the unit test passes without error or failure. Invokes the Sauce REST API to mark the Sauce Job as 'passed'.
+	 * Invoked if the unit test passes without error or failure. Invokes the Sauce REST API to mark the Sauce Job as 'passed'. Prints test information from sauceLabs.
 	 * 
 	 * @param description
 	 *            not used
@@ -77,20 +77,8 @@ public class Watcher extends TestWatcher {
 		}
 	}
 
-	private void printSessionId(final Description description) {
-		final String message = String.format("SauceOnDemandSessionID=%1$s job-name=%2$s.%3$s", sessionIdProvider.getSessionId(), description.getClassName(),
-				description.getMethodName());
-		System.out.println(message);
-		System.out.println("MUHAHAHAHAHAHAHA");
-		System.out.println("MUHAHAHAHAHAHAHA");
-		System.out.println("MUHAHAHAHAHAHAHA");
-		System.out.println("MUHAHAHAHAHAHAHA");
-		System.out.println("MUHAHAHAHAHAHAHA");
-		System.out.println("https://martchouk:87335815-89fd-4022-94e0-9c268f5991f9@saucelabs.com/rest/v1/martchouk/jobs/" + sessionIdProvider.getSessionId());
-	}
-
 	/**
-	 * Invoked if the unit test either throws an error or fails. Invokes the Sauce REST API to mark the Sauce Job as 'failed'.
+	 * Invoked if the unit test either throws an error or fails. Invokes the Sauce REST API to mark the Sauce Job as 'failed'. Prints test information from sauceLabs.
 	 * 
 	 * @param e
 	 *            not used
@@ -110,6 +98,25 @@ public class Watcher extends TestWatcher {
 		} catch (final IOException ioe) {
 			throw new RuntimeException(ioe);
 		}
+	}
+
+	/**
+	 * Print test information from sauceLabs.
+	 * 
+	 * @param description
+	 */
+	private void printSessionId(final Description description) {
+		final String message = String.format("SauceOnDemandSessionID=%1$s job-name=%2$s.%3$s", sessionIdProvider.getSessionId(), description.getClassName(),
+				description.getMethodName());
+		System.out.println(message);
+		// show test data info
+		System.out.println("https://martchouk:87335815-89fd-4022-94e0-9c268f5991f9@saucelabs.com/rest/v1/martchouk/jobs/" + sessionIdProvider.getSessionId());
+		// show test data info, log file
+		System.out.println("https://martchouk:87335815-89fd-4022-94e0-9c268f5991f9@saucelabs.com/rest/v1/martchouk/jobs/" + sessionIdProvider.getSessionId()
+				+ "/results/selenium-server.log");
+		// show test data info, log file
+		System.out.println("https://martchouk:87335815-89fd-4022-94e0-9c268f5991f9@saucelabs.com/rest/v1/martchouk/jobs/" + sessionIdProvider.getSessionId()
+				+ "/video-url");
 	}
 
 }

@@ -11,6 +11,7 @@ import com.saucelabs.common.SauceOnDemandAuthentication;
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
 import com.saucelabs.common.Utils;
 import com.saucelabs.saucerest.SauceREST;
+import com.test.poc.util.SauceRestUtility;
 
 /**
  * Test Watcher used to enrich test reports with test data from SauceLabs.
@@ -106,17 +107,17 @@ public class Watcher extends TestWatcher {
 	 * @param description
 	 */
 	private void printSessionId(final Description description) {
-		final String message = String.format("SauceOnDemandSessionID=%1$s job-name=%2$s.%3$s", sessionIdProvider.getSessionId(), description.getClassName(),
+		final String sessionId = sessionIdProvider.getSessionId();
+		final String message = String.format("SauceOnDemandSessionID=%1$s job-name=%2$s.%3$s", sessionId, description.getClassName(),
 				description.getMethodName());
 		System.out.println(message);
+		// TODO: extract this to be read from the project configuration
+		final SauceRestUtility restUtility = new SauceRestUtility("martchouk", "87335815-89fd-4022-94e0-9c268f5991f9");
 		// show test data info
-		System.out.println("https://martchouk:87335815-89fd-4022-94e0-9c268f5991f9@saucelabs.com/rest/v1/martchouk/jobs/" + sessionIdProvider.getSessionId());
+		System.out.println("https://martchouk:87335815-89fd-4022-94e0-9c268f5991f9@saucelabs.com/rest/v1/martchouk/jobs/" + sessionId);
 		// show test data info, log file
-		System.out.println("https://martchouk:87335815-89fd-4022-94e0-9c268f5991f9@saucelabs.com/rest/v1/martchouk/jobs/" + sessionIdProvider.getSessionId()
-				+ "/results/selenium-server.log");
+		System.out.println(restUtility.composeJobLogUrl(sessionId).toString());
 		// show test data info, log file
-		System.out.println("https://martchouk:87335815-89fd-4022-94e0-9c268f5991f9@saucelabs.com/rest/v1/martchouk/jobs/" + sessionIdProvider.getSessionId()
-				+ "/video-url");
+		System.out.println(restUtility.composeRestVideoUrl(sessionId).toString());
 	}
-
 }

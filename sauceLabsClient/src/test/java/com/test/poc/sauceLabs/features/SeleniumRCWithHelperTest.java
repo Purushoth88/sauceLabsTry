@@ -1,4 +1,4 @@
-package com.test.sauceLabs.features;
+package com.test.poc.sauceLabs.features;
 
 import static junit.framework.Assert.assertEquals;
 

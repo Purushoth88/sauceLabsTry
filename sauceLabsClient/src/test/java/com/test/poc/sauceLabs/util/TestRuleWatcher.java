@@ -1,4 +1,4 @@
-package com.test.poc;
+package com.test.poc.sauceLabs.util;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -11,7 +11,6 @@ import com.saucelabs.common.SauceOnDemandAuthentication;
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
 import com.saucelabs.common.Utils;
 import com.saucelabs.saucerest.SauceREST;
-import com.test.poc.util.SauceRestUtility;
 
 /**
  * Test Watcher used to enrich test reports with test data from SauceLabs.
@@ -19,7 +18,7 @@ import com.test.poc.util.SauceRestUtility;
  * @author Nicolae.Petridean
  * @author Ciprian I. Ileana
  */
-public class Watcher extends TestWatcher {
+public class TestRuleWatcher extends TestWatcher {
 
 	/**
 	 * The underlying {@link com.saucelabs.common.SauceOnDemandSessionIdProvider} instance which contains the Selenium session id. This is typically the unit test being executed.
@@ -34,7 +33,7 @@ public class Watcher extends TestWatcher {
 	/**
 	 * @param sessionIdProvider
 	 */
-	public Watcher(final SauceOnDemandSessionIdProvider sessionIdProvider) {
+	public TestRuleWatcher(final SauceOnDemandSessionIdProvider sessionIdProvider) {
 		this(sessionIdProvider, new SauceOnDemandAuthentication());
 	}
 
@@ -42,7 +41,7 @@ public class Watcher extends TestWatcher {
 	 * @param sessionIdProvider
 	 * @param authentication
 	 */
-	public Watcher(final SauceOnDemandSessionIdProvider sessionIdProvider, final SauceOnDemandAuthentication authentication) {
+	public TestRuleWatcher(final SauceOnDemandSessionIdProvider sessionIdProvider, final SauceOnDemandAuthentication authentication) {
 		this(sessionIdProvider, authentication.getUsername(), authentication.getAccessKey());
 	}
 
@@ -51,7 +50,7 @@ public class Watcher extends TestWatcher {
 	 * @param username
 	 * @param accessKey
 	 */
-	public Watcher(final SauceOnDemandSessionIdProvider sessionIdProvider, final String username, final String accessKey) {
+	public TestRuleWatcher(final SauceOnDemandSessionIdProvider sessionIdProvider, final String username, final String accessKey) {
 		this.sessionIdProvider = sessionIdProvider;
 		sauceREST = new SauceREST(username, accessKey);
 	}

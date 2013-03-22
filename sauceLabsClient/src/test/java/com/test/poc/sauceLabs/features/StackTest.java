@@ -1,4 +1,4 @@
-package com.test.sauceLabs.features;
+package com.test.poc.sauceLabs.features;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -28,6 +28,7 @@ public class StackTest {
 		System.out.println(number);
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Parameters
 	public static Collection data() {
 		final Object[][] data = new Object[][] { { 1 }, { 2 }, { 3 }, { 4 } };

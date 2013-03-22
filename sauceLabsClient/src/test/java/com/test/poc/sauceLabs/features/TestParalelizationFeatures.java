@@ -1,4 +1,4 @@
-package com.test.sauceLabs.features;
+package com.test.poc.sauceLabs.features;
 
 import static org.junit.Assert.fail;
 
@@ -18,9 +18,9 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.saucelabs.junit.Parallelized;
-import com.test.poc.Watcher;
-import com.test.poc.core.model.CapabilityConfiguraton;
-import com.test.poc.core.parent.ParametrizedParentTest;
+import com.test.poc.sauceLabs.core.model.CapabilityConfiguraton;
+import com.test.poc.sauceLabs.core.parent.ParametrizedParentTest;
+import com.test.poc.sauceLabs.util.TestRuleWatcher;
 
 /**
  * Paralellization tests.
@@ -29,7 +29,7 @@ import com.test.poc.core.parent.ParametrizedParentTest;
  * @author Ciprian I. Ileana
  */
 @RunWith(Parallelized.class)
-public class TestSeleniumFeatures extends ParametrizedParentTest {
+public class TestParalelizationFeatures extends ParametrizedParentTest {
 
 	/**
 	 * Selenoum generic web driver.
@@ -50,14 +50,14 @@ public class TestSeleniumFeatures extends ParametrizedParentTest {
 	 * JUnit Rule which will mark the Sauce Job as passed/failed when the test succeeds/fails.
 	 */
 	@Rule
-	public Watcher							resultReportingTestWatcher	= new Watcher(this, authentication);
+	public TestRuleWatcher							resultReportingTestWatcher	= new TestRuleWatcher(this, authentication);
 
 	/**
 	 * Will be feed with data provided by
 	 * 
 	 * @param capabilityConfiguraton
 	 */
-	public TestSeleniumFeatures(final CapabilityConfiguraton capabilityConfiguraton) {
+	public TestParalelizationFeatures(final CapabilityConfiguraton capabilityConfiguraton) {
 		this.capabilityConfiguraton = capabilityConfiguraton;
 	}
 

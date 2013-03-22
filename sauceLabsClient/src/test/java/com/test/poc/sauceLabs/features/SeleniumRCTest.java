@@ -1,4 +1,4 @@
-package com.test.sauceLabs.features;
+package com.test.poc.sauceLabs.features;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -12,8 +12,6 @@ import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-
-import com.thoughtworks.selenium.DefaultSelenium;
 
 /**
  * Simple test used to test integration with Selenium and SauceLabs

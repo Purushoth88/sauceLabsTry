@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.test.poc.util;
+package com.test.poc.sauceLabs.util;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -15,8 +15,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.test.poc.core.model.CapabilityConfiguraton;
-import com.test.poc.core.model.ProfileConfiguration;
+import com.test.poc.sauceLabs.core.model.CapabilityConfiguraton;
+import com.test.poc.sauceLabs.core.model.ProfileConfiguration;
 
 /**
  * @author Ciprian I. Ileana

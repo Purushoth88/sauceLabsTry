@@ -1,9 +1,9 @@
 /**
  * 
  */
-package com.test.poc.core.parent;
+package com.test.poc.sauceLabs.core.parent;
 
-import static com.test.poc.util.TestUtil.prepareWebDriver;
+import static com.test.poc.sauceLabs.util.TestUtil.prepareWebDriver;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -19,9 +19,9 @@ import org.openqa.selenium.WebDriver;
 
 import com.saucelabs.common.SauceOnDemandAuthentication;
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
-import com.test.poc.core.model.CapabilityConfiguraton;
-import com.test.poc.core.model.ProfileConfiguration;
-import com.test.poc.util.JSONConfigurationUtils;
+import com.test.poc.sauceLabs.core.model.CapabilityConfiguraton;
+import com.test.poc.sauceLabs.core.model.ProfileConfiguration;
+import com.test.poc.sauceLabs.util.JSONConfigurationUtils;
 
 /**
  * Abstract parent class for all SauceLabs related tests. It loads and provides to the test all the capability configuration resulted from the provided configuration file.

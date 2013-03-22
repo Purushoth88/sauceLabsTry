@@ -1,4 +1,4 @@
-package com.test.poc.util;
+package com.test.poc.sauceLabs.util;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

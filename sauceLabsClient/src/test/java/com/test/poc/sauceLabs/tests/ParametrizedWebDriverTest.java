@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.test.poc;
+package com.test.poc.sauceLabs.tests;
 
 import java.net.MalformedURLException;
 
@@ -11,12 +11,13 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import com.saucelabs.junit.Parallelized;
-import com.test.poc.core.model.CapabilityConfiguraton;
-import com.test.poc.core.parent.ParametrizedParentTest;
+import com.test.poc.sauceLabs.core.model.CapabilityConfiguraton;
+import com.test.poc.sauceLabs.core.parent.ParametrizedParentTest;
+import com.test.poc.sauceLabs.util.TestRuleWatcher;
 
 /**
  * Sample {@link RemoteWebDriver} test that demonstrates how to run your Selenium tests with <a href="http://saucelabs.com/ondemand">Sauce OnDemand</a>. *
@@ -24,7 +25,7 @@ import com.test.poc.core.parent.ParametrizedParentTest;
  * @author Ciprian I. Ileana
  * @author Nicolae Petridean
  */
-@RunWith(Parallelized.class)
+@RunWith(Parameterized.class)
 public class ParametrizedWebDriverTest extends ParametrizedParentTest {
 
 	/**
@@ -46,7 +47,7 @@ public class ParametrizedWebDriverTest extends ParametrizedParentTest {
 	 * JUnit Rule which will mark the Sauce Job as passed/failed when the test succeeds/fails.
 	 */
 	@Rule
-	public Watcher							resultReportingTestWatcher	= new Watcher(this, authentication);
+	public TestRuleWatcher					resultReportingTestWatcher	= new TestRuleWatcher(this, authentication);
 
 	/**
 	 * Will be feed with data provided by

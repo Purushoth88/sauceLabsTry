@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.test.poc.util;
+package com.test.poc.sauceLabs.util;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -15,7 +15,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.saucelabs.common.SauceOnDemandAuthentication;
-import com.test.poc.core.model.CapabilityConfiguraton;
+import com.test.poc.sauceLabs.core.model.CapabilityConfiguraton;
 
 /**
  * Collection of various utility methods used across tests

@@ -3,9 +3,11 @@
  */
 package com.test.poc.sauceLabs.tests;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 
 import org.apache.log4j.Logger;
+import org.json.JSONException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -15,7 +17,7 @@ import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import com.test.poc.sauceLabs.core.model.CapabilityConfiguraton;
+import com.test.poc.sauceLabs.core.model.CapabilityConfiguration;
 import com.test.poc.sauceLabs.core.parent.ParametrizedParentTest;
 import com.test.poc.sauceLabs.util.watchers.TestRuleWatcher;
 
@@ -41,7 +43,7 @@ public class ParametrizedWebDriverTest extends ParametrizedParentTest {
 	/**
 	 * Profile related configuration data
 	 */
-	private final CapabilityConfiguraton	capabilityConfiguraton;
+	private final CapabilityConfiguration	capabilityConfiguration;
 
 	/**
 	 * JUnit Rule which will mark the Sauce Job as passed/failed when the test succeeds/fails.
@@ -52,10 +54,13 @@ public class ParametrizedWebDriverTest extends ParametrizedParentTest {
 	/**
 	 * Will be feed with data provided by
 	 * 
-	 * @param capabilityConfiguraton
+	 * @param capabilityConfiguration
+	 * @throws IOException 
+	 * @throws JSONException 
 	 */
-	public ParametrizedWebDriverTest(final CapabilityConfiguraton capabilityConfiguraton) {
-		this.capabilityConfiguraton = capabilityConfiguraton;
+	public ParametrizedWebDriverTest(final CapabilityConfiguration capabilityConfiguration) throws JSONException, IOException {
+		super();
+		this.capabilityConfiguration = capabilityConfiguration;
 	}
 
 	/**
@@ -66,7 +71,7 @@ public class ParametrizedWebDriverTest extends ParametrizedParentTest {
 	@Before
 	public void setup() throws MalformedURLException {
 		logger.info("ParametrizedWebDriverTest - setup");
-		webDriver = provideWebDriver(capabilityConfiguraton);
+		webDriver = provideWebDriver(capabilityConfiguration);
 		sessionId = ((RemoteWebDriver) webDriver).getSessionId().toString();
 	}
 
@@ -86,4 +91,5 @@ public class ParametrizedWebDriverTest extends ParametrizedParentTest {
 	public void sampleTest() {
 		logger.info("ParametrizedWebDriverTest - sampleTest");
 	}
+
 }

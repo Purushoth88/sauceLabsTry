@@ -3,8 +3,10 @@ package com.test.poc.sauceLabs.features;
 import static com.test.poc.sauceLabs.util.flows.FlowsUtil.cabCheckoutWithExistingAccount;
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import org.json.JSONException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -14,7 +16,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.saucelabs.junit.Parallelized;
-import com.test.poc.sauceLabs.core.model.CapabilityConfiguraton;
+import com.test.poc.sauceLabs.core.model.CapabilityConfiguration;
 import com.test.poc.sauceLabs.core.parent.ParametrizedParentTest;
 import com.test.poc.sauceLabs.util.watchers.TestRuleWatcher;
 
@@ -40,7 +42,7 @@ public class TestParalelizationFeatures extends ParametrizedParentTest {
 	/**
 	 * Profile related configuration data
 	 */
-	private final CapabilityConfiguraton	capabilityConfiguraton;
+	private final CapabilityConfiguration	capabilityConfiguration;
 
 	/**
 	 * JUnit Rule which will mark the Sauce Job as passed/failed when the test succeeds/fails.
@@ -51,15 +53,18 @@ public class TestParalelizationFeatures extends ParametrizedParentTest {
 	/**
 	 * Will be feed with data provided by
 	 * 
-	 * @param capabilityConfiguraton
+	 * @param capabilityConfiguration
+	 * @throws IOException
+	 * @throws JSONException
 	 */
-	public TestParalelizationFeatures(final CapabilityConfiguraton capabilityConfiguraton) {
-		this.capabilityConfiguraton = capabilityConfiguraton;
+	public TestParalelizationFeatures(final CapabilityConfiguration capabilityConfiguration) throws JSONException, IOException {
+		super();
+		this.capabilityConfiguration = capabilityConfiguration;
 	}
 
 	@Before
 	public void setUp() throws Exception {
-		webDriver = provideWebDriver(capabilityConfiguraton);
+		webDriver = provideWebDriver(capabilityConfiguration);
 		System.setProperty("webdriver.firefox.bin", "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe");
 		webDriver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		sessionId = ((RemoteWebDriver) webDriver).getSessionId().toString();

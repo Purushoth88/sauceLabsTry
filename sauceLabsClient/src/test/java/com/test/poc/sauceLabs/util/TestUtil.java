@@ -20,7 +20,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.saucelabs.common.SauceOnDemandAuthentication;
-import com.test.poc.sauceLabs.core.model.CapabilityConfiguraton;
+import com.test.poc.sauceLabs.core.model.CapabilityConfiguration;
 
 /**
  * Collection of various utility methods used across tests
@@ -43,22 +43,21 @@ public class TestUtil {
 	}
 
 	/**
-	 * Dynamically prepares a {@link DesiredCapabilities} based on the provided {@link CapabilityConfiguraton}
+	 * Dynamically prepares a {@link DesiredCapabilities} based on the provided {@link CapabilityConfiguration}
 	 * 
-	 * @param capabilityConfiguraton
+	 * @param capabilityConfiguration
 	 * @return the dynamically created {@link DesiredCapabilities}
 	 */
-	public static DesiredCapabilities prepareDesiredCapabilities(final CapabilityConfiguraton capabilityConfiguraton) {
-		final DesiredCapabilities desiredCapabilities = new DesiredCapabilities(capabilityConfiguraton.getBrowserName(), capabilityConfiguraton.getBrowserVersion(), Platform.valueOf(capabilityConfiguraton.getPlatform()));
+	public static DesiredCapabilities prepareDesiredCapabilities(final CapabilityConfiguration capabilityConfiguration) {
+		final DesiredCapabilities desiredCapabilities = new DesiredCapabilities(capabilityConfiguration.getBrowserName(), capabilityConfiguration.getBrowserVersion(), Platform.valueOf(capabilityConfiguration.getPlatform()));
 
 		return desiredCapabilities;
-
 	}
 
 	/**
-	 * Dynamically prepares a {@link WebDriver} based on the provided {@link CapabilityConfiguraton} and {@link SauceOnDemandAuthentication}
+	 * Dynamically prepares a {@link WebDriver} based on the provided {@link CapabilityConfiguration} and {@link SauceOnDemandAuthentication}
 	 * 
-	 * @param capabilityConfiguraton
+	 * @param capabilityConfiguration
 	 *            profile related configuration data
 	 * @param authentication
 	 *            the Sauce OnDemand authentication
@@ -66,10 +65,10 @@ public class TestUtil {
 	 * @throws MalformedURLException
 	 *             if the dynamically created URL when initializing the {@link RemoteWebDriver} specifies an unknown protocol.
 	 */
-	public static WebDriver prepareWebDriver(final CapabilityConfiguraton capabilityConfiguraton, final SauceOnDemandAuthentication authentication) throws MalformedURLException {
+	public static WebDriver prepareWebDriver(final CapabilityConfiguration capabilityConfiguration, final SauceOnDemandAuthentication authentication) throws MalformedURLException {
 		WebDriver webDriver = null;
 
-		final DesiredCapabilities desiredCapabilities = TestUtil.prepareDesiredCapabilities(capabilityConfiguraton);
+		final DesiredCapabilities desiredCapabilities = TestUtil.prepareDesiredCapabilities(capabilityConfiguration);
 
 		webDriver = new RemoteWebDriver(new URL("http://" + authentication.getUsername() + ":" + authentication.getAccessKey() + "@ondemand.saucelabs.com:80/wd/hub"), desiredCapabilities);
 		return webDriver;
@@ -151,7 +150,8 @@ public class TestUtil {
 
 				/**
 				 * @param driver
-				 * @return
+				 *            {@link WebDriver} to be used
+				 * @return true if all required iframes are present, false otherwise
 				 */
 				@Override
 				public Boolean apply(final WebDriver driver) {

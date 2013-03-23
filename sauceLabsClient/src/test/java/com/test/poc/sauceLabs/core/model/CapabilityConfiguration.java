@@ -4,13 +4,13 @@
 package com.test.poc.sauceLabs.core.model;
 
 /**
- * Holds all profile related configuration data.
+ * Holds all capability related configuration data.
  * 
  * @author Ciprian I. Ileana
  * @author Nicolae Petridean
  * 
  */
-public class CapabilityConfiguraton {
+public class CapabilityConfiguration {
 
 	/**
 	 * The browser name
@@ -79,7 +79,7 @@ public class CapabilityConfiguraton {
 	 */
 	@Override
 	public String toString() {
-		return "CapabilityConfiguraton [browserName=" + browserName + ", browserVersion=" + browserVersion + ", platform=" + platform + "]";
+		return "CapabilityConfiguration [browserName=" + browserName + ", browserVersion=" + browserVersion + ", platform=" + platform + "]";
 	}
 
 	/*
@@ -113,7 +113,7 @@ public class CapabilityConfiguraton {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		CapabilityConfiguraton other = (CapabilityConfiguraton) obj;
+		CapabilityConfiguration other = (CapabilityConfiguration) obj;
 		if (browserName == null) {
 			if (other.browserName != null) {
 				return false;

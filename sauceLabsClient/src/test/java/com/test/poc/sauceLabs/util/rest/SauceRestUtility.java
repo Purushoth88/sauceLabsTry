@@ -13,13 +13,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.json.simple.JSONValue;
 
 import sun.misc.BASE64Encoder;
+
+import com.saucelabs.saucerest.SauceREST;
 
 /**
  * Simple Java API that invokes the Sauce REST API.
@@ -28,15 +27,13 @@ import sun.misc.BASE64Encoder;
  * @author Ciprian I. Ileana
  * 
  */
-public class SauceRestUtility {
+@SuppressWarnings("restriction")
+public class SauceRestUtility extends SauceREST {
 
 	/**
 	 * class logger.
 	 */
 	private static final Logger	logger					= Logger.getLogger(SauceRestUtility.class);
-
-	protected String			username;
-	protected String			accessKey;
 
 	public static final String	RESTURL					= "https://saucelabs.com/rest/v1/%1$s";
 	private static final String	USER_RESULT_FORMAT		= RESTURL + "/%2$s";
@@ -51,36 +48,7 @@ public class SauceRestUtility {
 	 * @param accessKey
 	 */
 	public SauceRestUtility(final String username, final String accessKey) {
-		this.username = username;
-		this.accessKey = accessKey;
-	}
-
-	/**
-	 * Marks a Sauce Job as 'passed'.
-	 * 
-	 * @param jobId
-	 *            the Sauce Job Id, typically equal to the Selenium/WebDriver sessionId
-	 * @throws IOException
-	 *             thrown if an error occurs invoking the REST request
-	 */
-	public void jobPassed(final String jobId) {
-		final Map<String, Object> updates = new HashMap<String, Object>();
-		updates.put("passed", true);
-		updateJobInfo(jobId, updates);
-	}
-
-	/**
-	 * Marks a Sauce Job as 'failed'.
-	 * 
-	 * @param jobId
-	 *            the Sauce Job Id, typically equal to the Selenium/WebDriver sessionId
-	 * @throws IOException
-	 *             thrown if an error occurs invoking the REST request
-	 */
-	public void jobFailed(final String jobId) {
-		final Map<String, Object> updates = new HashMap<String, Object>();
-		updates.put("passed", false);
-		updateJobInfo(jobId, updates);
+		super(username, accessKey);
 	}
 
 	/**
@@ -259,38 +227,10 @@ public class SauceRestUtility {
 	}
 
 	/**
-	 * @param jobId
-	 * @param updates
+	 * Additional SauceLabs authentication method, via a temporary authentication token.
+	 * 
+	 * @return the token.
 	 */
-	public void updateJobInfo(final String jobId, final Map<String, Object> updates) {
-		HttpURLConnection postBack = null;
-		try {
-			final URL restEndpoint = new URL(String.format(JOB_RESULT_FORMAT, username, jobId));
-			postBack = (HttpURLConnection) restEndpoint.openConnection();
-			postBack.setDoOutput(true);
-			postBack.setRequestMethod("PUT");
-			final String auth = encodeAuthentication();
-			postBack.setRequestProperty("Authorization", auth);
-			final String jsonText = JSONValue.toJSONString(updates);
-			postBack.getOutputStream().write(jsonText.getBytes());
-		} catch (final IOException ioException) {
-			logger.warn("Error updating Sauce Results", ioException);
-		}
-
-		try {
-			if (postBack != null) {
-				postBack.getInputStream().close();
-			}
-		} catch (final IOException ioException) {
-			logger.warn("Error closing result stream", ioException);
-		}
-
-	}
-
-	/**
-	 * @return
-	 */
-	@SuppressWarnings("restriction")
 	private String encodeAuthentication() {
 		String auth = username + ":" + accessKey;
 		// Handle long strings encoded using BASE64Encoder - see http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6947917

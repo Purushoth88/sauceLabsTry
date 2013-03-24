@@ -1,4 +1,4 @@
-package com.test.poc.sauceLabs.features;
+package com.test.poc.sauceLabs.tests;
 
 import static com.test.poc.sauceLabs.util.flows.FlowsUtil.cabCheckoutWithExistingAccount;
 import static org.junit.Assert.fail;
@@ -22,8 +22,6 @@ import com.test.poc.sauceLabs.util.watchers.SauceRestRule;
 
 /**
  * Parallelization tests.
- * 
- * TODO: document this better, get out the ugly shit. ERROR logs. Do some nice paralel tests.
  * 
  * @author Nicolae.Petridean
  * @author Ciprian I. Ileana

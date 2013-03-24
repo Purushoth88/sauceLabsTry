@@ -1,4 +1,4 @@
-package com.test.poc.sauceLabs.features;
+package com.test.poc.sauceLabs.tests;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -7,7 +7,6 @@ import java.net.MalformedURLException;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
@@ -25,13 +24,10 @@ import com.thoughtworks.selenium.DefaultSelenium;
 /**
  * Simple test used to test integration with Selenium and SauceLabs
  * 
- * TODO: document this better, get out the ugly shit. ERROR logs.
- * 
  * @author Nicolae.Petridean
  * @author Ciprian I. Ileana
  */
 @RunWith(value = Parameterized.class)
-@Ignore
 public class SeleniumRCWithHelperTest implements SauceOnDemandSessionIdProvider {
 
 	/**

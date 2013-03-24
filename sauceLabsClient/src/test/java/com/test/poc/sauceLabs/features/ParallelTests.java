@@ -27,7 +27,7 @@ import com.test.poc.sauceLabs.util.watchers.TestRuleWatcher;
  * @author Ciprian I. Ileana
  */
 @RunWith(Parallelized.class)
-public class TestParalelizationFeatures extends ParametrizedParentTest {
+public class ParallelTests extends ParametrizedParentTest {
 
 	/**
 	 * Selenium generic web driver.
@@ -57,7 +57,7 @@ public class TestParalelizationFeatures extends ParametrizedParentTest {
 	 * @throws IOException
 	 * @throws JSONException
 	 */
-	public TestParalelizationFeatures(final CapabilityConfiguration capabilityConfiguration) throws JSONException, IOException {
+	public ParallelTests(final CapabilityConfiguration capabilityConfiguration) throws JSONException, IOException {
 		super();
 		this.capabilityConfiguration = capabilityConfiguration;
 	}

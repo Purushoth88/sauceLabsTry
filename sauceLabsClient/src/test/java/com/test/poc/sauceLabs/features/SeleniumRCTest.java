@@ -14,7 +14,9 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 /**
- * Simple test used to test integration with Selenium and SauceLabs
+ * Simple test used to test integration with Selenium and SauceLabs.
+ * 
+ * TODO: document this better, get out the ugly shit. ERROR logs.
  * 
  * @author Nicolae.Petridean
  * @author Ciprian I. Ileana

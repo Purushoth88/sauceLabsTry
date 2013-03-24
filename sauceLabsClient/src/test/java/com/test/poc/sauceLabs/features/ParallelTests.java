@@ -18,10 +18,12 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import com.saucelabs.junit.Parallelized;
 import com.test.poc.sauceLabs.core.model.CapabilityConfiguration;
 import com.test.poc.sauceLabs.core.parent.ParametrizedParentTest;
-import com.test.poc.sauceLabs.util.watchers.TestRuleWatcher;
+import com.test.poc.sauceLabs.util.watchers.SauceRestRule;
 
 /**
  * Parallelization tests.
+ * 
+ * TODO: document this better, get out the ugly shit. ERROR logs. Do some nice paralel tests.
  * 
  * @author Nicolae.Petridean
  * @author Ciprian I. Ileana
@@ -48,7 +50,7 @@ public class ParallelTests extends ParametrizedParentTest {
 	 * JUnit Rule which will mark the Sauce Job as passed/failed when the test succeeds/fails.
 	 */
 	@Rule
-	public TestRuleWatcher					resultReportingTestWatcher	= new TestRuleWatcher(this, authentication);
+	public SauceRestRule					resultReportingTestWatcher	= new SauceRestRule(this, authentication);
 
 	/**
 	 * Will be feed with data provided by

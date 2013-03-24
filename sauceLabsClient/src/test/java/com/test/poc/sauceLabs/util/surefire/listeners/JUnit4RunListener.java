@@ -17,6 +17,8 @@ import org.junit.runner.notification.Failure;
 import org.junit.runners.Parameterized;
 
 /**
+ * TODO: document this better, get out the ugly shit. ERROR logs.
+ * 
  * Simple JUnit test listener.
  * 
  * @author Nicolae.Petridean

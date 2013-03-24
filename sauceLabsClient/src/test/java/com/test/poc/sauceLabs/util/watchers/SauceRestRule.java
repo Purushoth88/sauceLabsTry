@@ -4,22 +4,29 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 
 import com.saucelabs.common.SauceOnDemandAuthentication;
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
 import com.saucelabs.common.Utils;
-import com.saucelabs.saucerest.SauceREST;
-import com.test.poc.sauceLabs.util.rest.SauceRestUtility;
+import com.test.poc.sauceLabs.util.rest.SauceRestUtil;
 
 /**
+ * TODO: document this better, get out the ugly shit. ERROR logs.
+ * 
  * Test Watcher used to enrich test reports with test data from SauceLabs.
  * 
  * @author Nicolae.Petridean
  * @author Ciprian I. Ileana
  */
-public class TestRuleWatcher extends TestWatcher {
+public class SauceRestRule extends TestWatcher {
+
+	/**
+	 * class logger.
+	 */
+	private static final Logger						logger	= Logger.getLogger(SauceRestRule.class);
 
 	/**
 	 * The underlying {@link com.saucelabs.common.SauceOnDemandSessionIdProvider} instance which contains the Selenium session id. This is typically the unit test being executed.
@@ -29,12 +36,12 @@ public class TestRuleWatcher extends TestWatcher {
 	/**
 	 * The instance of the Sauce OnDemand Java REST API client.
 	 */
-	private final SauceREST							sauceREST;
+	private final SauceRestUtil						sauceRestUtil;
 
 	/**
 	 * @param sessionIdProvider
 	 */
-	public TestRuleWatcher(final SauceOnDemandSessionIdProvider sessionIdProvider) {
+	public SauceRestRule(final SauceOnDemandSessionIdProvider sessionIdProvider) {
 		this(sessionIdProvider, new SauceOnDemandAuthentication());
 	}
 
@@ -42,7 +49,7 @@ public class TestRuleWatcher extends TestWatcher {
 	 * @param sessionIdProvider
 	 * @param authentication
 	 */
-	public TestRuleWatcher(final SauceOnDemandSessionIdProvider sessionIdProvider, final SauceOnDemandAuthentication authentication) {
+	public SauceRestRule(final SauceOnDemandSessionIdProvider sessionIdProvider, final SauceOnDemandAuthentication authentication) {
 		this(sessionIdProvider, authentication.getUsername(), authentication.getAccessKey());
 	}
 
@@ -51,9 +58,9 @@ public class TestRuleWatcher extends TestWatcher {
 	 * @param username
 	 * @param accessKey
 	 */
-	public TestRuleWatcher(final SauceOnDemandSessionIdProvider sessionIdProvider, final String username, final String accessKey) {
+	public SauceRestRule(final SauceOnDemandSessionIdProvider sessionIdProvider, final String username, final String accessKey) {
 		this.sessionIdProvider = sessionIdProvider;
-		sauceREST = new SauceREST(username, accessKey);
+		sauceRestUtil = new SauceRestUtil(username, accessKey);
 	}
 
 	/**
@@ -71,9 +78,11 @@ public class TestRuleWatcher extends TestWatcher {
 				final Map<String, Object> updates = new HashMap<String, Object>();
 				updates.put("passed", true);
 				Utils.addBuildNumberToUpdate(updates);
-				sauceREST.updateJobInfo(sessionIdProvider.getSessionId(), updates);
+				sauceRestUtil.updateJobInfo(sessionIdProvider.getSessionId(), updates);
 			}
 		} catch (final IOException ioe) {
+			logger.error("sauce rest to update job for success failed: " + ioe.getMessage());
+			logger.error(ioe.getStackTrace());
 			throw new RuntimeException(ioe);
 		}
 	}
@@ -94,9 +103,11 @@ public class TestRuleWatcher extends TestWatcher {
 				final Map<String, Object> updates = new HashMap<String, Object>();
 				updates.put("passed", false);
 				Utils.addBuildNumberToUpdate(updates);
-				sauceREST.updateJobInfo(sessionIdProvider.getSessionId(), updates);
+				sauceRestUtil.updateJobInfo(sessionIdProvider.getSessionId(), updates);
 			}
 		} catch (final IOException ioe) {
+			logger.error("sauce rest to update job for failed failed: " + ioe.getMessage());
+			logger.error(ioe.getStackTrace());
 			throw new RuntimeException(ioe);
 		}
 	}
@@ -111,13 +122,11 @@ public class TestRuleWatcher extends TestWatcher {
 		final String message = String.format("SauceOnDemandSessionID=%1$s job-name=%2$s.%3$s", sessionId, description.getClassName(),
 				description.getMethodName());
 		System.out.println(message);
-		// TODO: extract this to be read from the project configuration
-		final SauceRestUtility restUtility = new SauceRestUtility("martchouk", "87335815-89fd-4022-94e0-9c268f5991f9");
 		// show test data info
-		System.out.println("https://martchouk:87335815-89fd-4022-94e0-9c268f5991f9@saucelabs.com/rest/v1/martchouk/jobs/" + sessionId);
-		// show test data info, log file
-		System.out.println(restUtility.composeJobLogUrl(sessionId).toString());
-		// show test data info, log file
-		System.out.println(restUtility.composeRestVideoUrl(sessionId).toString());
+		System.out.println(sauceRestUtil.composeJobInfoUrl(sessionId).toString());
+		// show test log file
+		System.out.println(sauceRestUtil.composeJobLogUrl(sessionId).toString());
+		// show test video url.
+		System.out.println(sauceRestUtil.composeVideoUrl(sessionId).toString());
 	}
 }

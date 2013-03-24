@@ -17,6 +17,8 @@ import org.junit.runners.Parameterized.Parameters;
 /**
  * Simple test used to test integration with Selenium and SauceLabs
  * 
+ * TODO: document this better, get out the ugly shit. ERROR logs. TODO: Remove ?
+ * 
  * @author Nicolae.Petridean
  * @author Ciprian I. Ileana
  */

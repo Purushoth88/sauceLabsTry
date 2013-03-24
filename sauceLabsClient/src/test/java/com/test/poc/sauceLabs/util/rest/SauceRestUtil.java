@@ -21,6 +21,8 @@ import sun.misc.BASE64Encoder;
 import com.saucelabs.saucerest.SauceREST;
 
 /**
+ * TODO: document this better, get out the ugly shit. ERROR logs.
+ * 
  * Simple Java API that invokes the Sauce REST API.
  * 
  * @author Nicolae Petridean
@@ -28,40 +30,47 @@ import com.saucelabs.saucerest.SauceREST;
  * 
  */
 @SuppressWarnings("restriction")
-public class SauceRestUtility extends SauceREST {
+public class SauceRestUtil extends SauceREST {
 
 	/**
 	 * class logger.
 	 */
-	private static final Logger	logger				= Logger.getLogger(SauceRestUtility.class);
+	private static final Logger	logger					= Logger.getLogger(SauceRestUtil.class);
 
 	/**
 	 * Base url , containing link to sauceLabs rest api and authentication tokens
 	 */
-	private static final String	AUTH_RESTURL		= "https://%1$s:%2$s@saucelabs.com/";
+	private static final String	AUTH_RESTURL			= "https://%1$s:%2$s@saucelabs.com";
 
 	/**
 	 * user results url.
 	 */
-	private static final String	USER_RESULT_URL		= AUTH_RESTURL + "rest/v1/%3$s/jobs";
+	private static final String	ALL_JOBS_RESULT_URL		= AUTH_RESTURL + "/rest/v1/%3$s/jobs";
 
 	/**
 	 * job results url.
 	 */
-	private static final String	JOB_RESULT_URL		= AUTH_RESTURL + "rest/v1/%3$s/jobs/%4$s";
+	private static final String	SPECIFIC_JOB_RESULT_URL	= ALL_JOBS_RESULT_URL + "/%4$s";
+
+	/**
+	 * asset base url.
+	 */
+	private static final String	JOB_ASSET_BASE_URL		= AUTH_RESTURL + "/rest/%3$s/jobs/%4$s/results";
 
 	/**
 	 * video url.
 	 */
-	private static final String	DOWNLOAD_VIDEO_URL	= AUTH_RESTURL + "jobs/%3$s/video_%4$s.flv";
-	// TODO: https://martchouk:87335815-89fd-4022-94e0-9c268f5991f9@saucelabs.com/rest/v1/martchouk/jobs/" + sessionId
-	// TODO: https://martchouk:87335815-89fd-4022-94e0-9c268f5991f9@saucelabs.com/jobs/d133e0fef6c94c99bff3435a83a0f757/video_d133e0fef6c94c99bff3435a83a0f757.flv
+	private static final String	JOB_VIDEO_URL			= JOB_ASSET_BASE_URL + "/video.flv";
 
-	// https://martchouk:87335815-89fd-4022-94e0-9c268f5991f9@saucelabs.com/rest/martchouk/jobs/d133e0fef6c94c99bff3435a83a0f757/results/selenium-server.log
-	// https://martchouk:87335815-89fd-4022-94e0-9c268f5991f9@saucelabs.com/rest/martchouk/jobs/d133e0fef6c94c99bff3435a83a0f757/results/video.flv
-	// still needs to be fixed.
-	private static final String	DOWNLOAD_LOG_URL	= JOB_RESULT_URL + "/selenium_server.log";
-	private static final String	DATE_FORMAT			= "yyyyMMdd_HHmmSS";
+	/**
+	 * video url.
+	 */
+	private static final String	JOB_LOG_URL				= JOB_ASSET_BASE_URL + "/selenium-server.log";
+
+	/**
+	 * date format to limit rest api results.
+	 */
+	private static final String	DATE_FORMAT				= "yyyyMMdd_HHmmSS";
 
 	/**
 	 * C'tor, using sauceLabs userName and accessKey.
@@ -69,7 +78,7 @@ public class SauceRestUtility extends SauceREST {
 	 * @param username
 	 * @param accessKey
 	 */
-	public SauceRestUtility(final String username, final String accessKey) {
+	public SauceRestUtil(final String username, final String accessKey) {
 		super(username, accessKey);
 	}
 
@@ -81,7 +90,7 @@ public class SauceRestUtility extends SauceREST {
 	 * @param location
 	 */
 	public void downloadVideo(final String jobId, final String location) {
-		final URL restEndpoint = composeRestVideoUrl(jobId);
+		final URL restEndpoint = composeVideoUrl(jobId);
 		downloadFile(jobId, location, restEndpoint);
 	}
 
@@ -91,10 +100,10 @@ public class SauceRestUtility extends SauceREST {
 	 * @param jobId
 	 * @return
 	 */
-	public URL composeRestVideoUrl(final String jobId) {
+	public URL composeVideoUrl(final String jobId) {
 		URL restEndpoint = null;
 		try {
-			restEndpoint = new URL(String.format(DOWNLOAD_VIDEO_URL, username, accessKey, jobId, jobId));
+			restEndpoint = new URL(String.format(JOB_VIDEO_URL, username, accessKey, username, jobId));
 		} catch (final MalformedURLException malformedURLException) {
 			logger.warn("Error constructing Sauce URL", malformedURLException);
 		}
@@ -123,7 +132,7 @@ public class SauceRestUtility extends SauceREST {
 	public URL composeJobLogUrl(final String jobId) {
 		URL restEndpoint = null;
 		try {
-			restEndpoint = new URL(String.format(DOWNLOAD_LOG_URL, username, accessKey, username, jobId));
+			restEndpoint = new URL(String.format(JOB_LOG_URL, username, accessKey, username, jobId));
 		} catch (final MalformedURLException malformedURLException) {
 			logger.warn("Error constructing Sauce URL", malformedURLException);
 		}
@@ -136,7 +145,7 @@ public class SauceRestUtility extends SauceREST {
 	 * @param path
 	 * @return
 	 */
-	public String retrieveResults() {
+	public String retrieveAllUserJobResults() {
 		final URL restEndpoint = composeUserTestResultsUrl();
 		return retrieveResults(restEndpoint);
 	}
@@ -148,7 +157,7 @@ public class SauceRestUtility extends SauceREST {
 	public URL composeUserTestResultsUrl() {
 		URL restEndpoint = null;
 		try {
-			restEndpoint = new URL(String.format(USER_RESULT_URL, username, accessKey, username));
+			restEndpoint = new URL(String.format(ALL_JOBS_RESULT_URL, username, accessKey, username));
 		} catch (final MalformedURLException malformedURLException) {
 			logger.warn("Error constructing Sauce URL", malformedURLException);
 		}
@@ -175,7 +184,7 @@ public class SauceRestUtility extends SauceREST {
 	public URL composeJobInfoUrl(final String jobId) {
 		URL restEndpoint = null;
 		try {
-			restEndpoint = new URL(String.format(JOB_RESULT_URL, username, accessKey, username, jobId));
+			restEndpoint = new URL(String.format(SPECIFIC_JOB_RESULT_URL, username, accessKey, username, jobId));
 		} catch (final MalformedURLException malformedURLException) {
 			logger.warn("Error constructing Sauce URL", malformedURLException);
 		}
@@ -267,12 +276,4 @@ public class SauceRestUtility extends SauceREST {
 		return auth;
 	}
 
-	public static void main(final String arg[]) {
-		// d133e0fef6c94c99bff3435a83a0f757
-		final SauceRestUtility utility = new SauceRestUtility("martchouk", "87335815-89fd-4022-94e0-9c268f5991f9");
-		System.out.println(utility.composeRestVideoUrl("d133e0fef6c94c99bff3435a83a0f757"));
-		System.out.println(utility.composeJobInfoUrl("d133e0fef6c94c99bff3435a83a0f757"));
-		System.out.println(utility.composeUserTestResultsUrl());
-		System.out.println(utility.composeJobLogUrl("d133e0fef6c94c99bff3435a83a0f757"));
-	}
 }

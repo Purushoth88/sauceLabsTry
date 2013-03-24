@@ -25,6 +25,8 @@ import com.thoughtworks.selenium.DefaultSelenium;
 /**
  * Simple test used to test integration with Selenium and SauceLabs
  * 
+ * TODO: document this better, get out the ugly shit. ERROR logs.
+ * 
  * @author Nicolae.Petridean
  * @author Ciprian I. Ileana
  */
@@ -67,8 +69,9 @@ public class SeleniumRCWithHelperTest implements SauceOnDemandSessionIdProvider 
 	 */
 	@Before
 	public void setUp() throws Exception {
-		final DefaultSelenium selenium = new DefaultSelenium("ondemand.saucelabs.com", 80, "{\"username\": \"" + authentication.getUsername() + "\"," + "\"access-key\": \"" + authentication.getAccessKey() + "\","
-				+ "\"os\": \"Windows 2003\"," + "\"browser\": \"firefox\"," + "\"browser-version\": \"7\"," + "\"name\": \"Testing Selenium 1 with Java on Sauce\"}", "http://saucelabs.com/");
+		final DefaultSelenium selenium = new DefaultSelenium("ondemand.saucelabs.com", 80, "{\"username\": \"" + authentication.getUsername() + "\","
+				+ "\"access-key\": \"" + authentication.getAccessKey() + "\"," + "\"os\": \"Windows 2003\"," + "\"browser\": \"firefox\","
+				+ "\"browser-version\": \"7\"," + "\"name\": \"Testing Selenium 1 with Java on Sauce\"}", "http://saucelabs.com/");
 		selenium.start();
 		this.selenium = selenium;
 		this.sessionId = getSessionIdFromSelenium();

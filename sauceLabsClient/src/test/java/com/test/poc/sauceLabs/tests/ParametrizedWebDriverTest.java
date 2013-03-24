@@ -19,7 +19,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.test.poc.sauceLabs.core.model.CapabilityConfiguration;
 import com.test.poc.sauceLabs.core.parent.ParametrizedParentTest;
-import com.test.poc.sauceLabs.util.watchers.TestRuleWatcher;
+import com.test.poc.sauceLabs.util.watchers.SauceRestRule;
 
 /**
  * Sample {@link RemoteWebDriver} test that demonstrates how to run your Selenium tests with <a href="http://saucelabs.com/ondemand">Sauce OnDemand</a>. *
@@ -49,7 +49,7 @@ public class ParametrizedWebDriverTest extends ParametrizedParentTest {
 	 * JUnit Rule which will mark the Sauce Job as passed/failed when the test succeeds/fails.
 	 */
 	@Rule
-	public TestRuleWatcher					resultReportingTestWatcher	= new TestRuleWatcher(this, authentication);
+	public SauceRestRule					resultReportingTestWatcher	= new SauceRestRule(this, authentication);
 
 	/**
 	 * Will be feed with data provided by

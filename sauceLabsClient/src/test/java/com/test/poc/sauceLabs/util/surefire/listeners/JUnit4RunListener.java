@@ -17,9 +17,7 @@ import org.junit.runner.notification.Failure;
 import org.junit.runners.Parameterized;
 
 /**
- * TODO: document this better, get out the ugly shit. ERROR logs.
- * 
- * Simple JUnit test listener.
+ * Simple JUnit test listener. Usefull together with Surefire plugin to listen to test events.
  * 
  * @author Nicolae.Petridean
  * @author Ciprian I. Ileana
@@ -32,7 +30,9 @@ public class JUnit4RunListener extends org.junit.runner.notification.RunListener
 															+ "[^\\\\(\\\\)]+" // non-parens
 															+ ")\\)" + "$");
 	// then a close-paren (end group match)
-
+	/**
+	 * run listener reporter.
+	 */
 	protected final RunListener			reporter;
 
 	/**
@@ -81,17 +81,21 @@ public class JUnit4RunListener extends org.junit.runner.notification.RunListener
 	 */
 	@Override
 	public void testFailure(final Failure failure) throws Exception {
-		/*
-		 * final ReportEntry report = SimpleReportEntry.withException(getClassName(failure.getDescription()), failure.getTestHeader(), createStackTraceWriter(failure));
-		 * 
-		 * if (failure.getException() instanceof AssertionError) { this.reporter.testFailed(report); } else { this.reporter.testError(report); } failureFlag.set(Boolean.TRUE);
-		 */
 	}
 
+	/**
+	 * used to write the stackTrace to report files.
+	 * 
+	 * @param failure
+	 * @return
+	 */
 	protected StackTraceWriter createStackTraceWriter(final Failure failure) {
 		return new DeserializedStacktraceWriter(failure.getMessage(), failure.getTestHeader(), failure.getTrace());
 	}
 
+	/**
+	 * assumption failure listener method.
+	 */
 	@Override
 	public void testAssumptionFailure(final Failure failure) {
 		this.reporter.testAssumptionFailure(createReportEntry(failure.getDescription()));

@@ -14,8 +14,6 @@ import com.saucelabs.common.Utils;
 import com.test.poc.sauceLabs.util.rest.SauceRestUtil;
 
 /**
- * TODO: document this better, get out the ugly shit. ERROR logs.
- * 
  * Test Watcher used to enrich test reports with test data from SauceLabs.
  * 
  * @author Nicolae.Petridean
@@ -64,7 +62,7 @@ public class SauceRestRule extends TestWatcher {
 	}
 
 	/**
-	 * Invoked if the unit test passes without error or failure. Invokes the Sauce REST API to mark the Sauce Job as 'passed'. Prints test information from sauceLabs.
+	 * Invoked if the unit test passes without error or failure. Invokes the Sauce REST API to mark the Sauce Job as 'passed'. Prints test information from sauceLabs, to the test results log file.
 	 * 
 	 * @param description
 	 *            not used
@@ -88,7 +86,7 @@ public class SauceRestRule extends TestWatcher {
 	}
 
 	/**
-	 * Invoked if the unit test either throws an error or fails. Invokes the Sauce REST API to mark the Sauce Job as 'failed'. Prints test information from sauceLabs.
+	 * Invoked if the unit test either throws an error or fails. Invokes the Sauce REST API to mark the Sauce Job as 'failed'. Prints test information from sauceLabs, to the test results log.
 	 * 
 	 * @param e
 	 *            not used
@@ -121,6 +119,7 @@ public class SauceRestRule extends TestWatcher {
 		final String sessionId = sessionIdProvider.getSessionId();
 		final String message = String.format("SauceOnDemandSessionID=%1$s job-name=%2$s.%3$s", sessionId, description.getClassName(),
 				description.getMethodName());
+		// System.Out is redirected to print in the test results file. Check surefire plugin configuration in pom.xml file.
 		System.out.println(message);
 		// show test data info
 		System.out.println(sauceRestUtil.composeJobInfoUrl(sessionId).toString());

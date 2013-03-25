@@ -62,6 +62,11 @@ public class ParallelTests extends ParametrizedParentTest {
 		this.capabilityConfiguration = capabilityConfiguration;
 	}
 
+	/**
+	 * Before method.
+	 * 
+	 * @throws Exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		webDriver = provideWebDriver(capabilityConfiguration);

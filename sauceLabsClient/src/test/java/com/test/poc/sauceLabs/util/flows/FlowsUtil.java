@@ -9,8 +9,6 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-import com.test.poc.sauceLabs.util.config.JSONConfigurationUtils;
-
 /**
  * @author Ciprian I. Ileana
  * @author Nicolae Petridean
@@ -48,15 +46,18 @@ public class FlowsUtil {
 
 		waitForIframes(webDriver, 3);
 
+		logger.info("Moving to the inner iframe to continue the test");
 		// driver.findElement(By.tagName("body")).getText().contains("");
 		webDriver.switchTo().frame(2);
 
+		logger.info("Validate the iframe contents");
 		// find page elements.
 		webDriver.findElement(By.xpath(".//*[@id='form-roundabout-creditcard']/ul/li[2]/div[2]")).click();
 		webDriver.findElement(By.xpath(".//*[@id='form-roundabout-creditcard']/ul/li[2]/div[3]/input")).clear();
 		webDriver.findElement(By.xpath(".//*[@id='form-roundabout-creditcard']/ul/li[2]/div[3]/input")).sendKeys("123");
 		webDriver.findElement(By.xpath("(.//*[@id='form-roundabout-creditcard']/ul/li[2]/div[4]/div[2]/button[1]")).click();
 		webDriver.findElement(By.id("paynow")).click();
+		logger.info("Test finished");
 	}
 
 }

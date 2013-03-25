@@ -103,7 +103,7 @@ public class SauceRestUtil extends SauceREST {
 		try {
 			restEndpoint = new URL(String.format(JOB_VIDEO_URL, username, accessKey, username, jobId));
 		} catch (final MalformedURLException malformedURLException) {
-			logger.warn("Error constructing Sauce URL", malformedURLException);
+			logger.error("Error constructing Sauce URL", malformedURLException);
 		}
 		return restEndpoint;
 	}
@@ -132,7 +132,7 @@ public class SauceRestUtil extends SauceREST {
 		try {
 			restEndpoint = new URL(String.format(JOB_LOG_URL, username, accessKey, username, jobId));
 		} catch (final MalformedURLException malformedURLException) {
-			logger.warn("Error constructing Sauce URL", malformedURLException);
+			logger.error("Error constructing Sauce URL", malformedURLException);
 		}
 		return restEndpoint;
 	}
@@ -159,7 +159,7 @@ public class SauceRestUtil extends SauceREST {
 		try {
 			restEndpoint = new URL(String.format(ALL_JOBS_RESULT_URL, username, accessKey, username));
 		} catch (final MalformedURLException malformedURLException) {
-			logger.warn("Error constructing Sauce URL", malformedURLException);
+			logger.error("Error constructing Sauce URL", malformedURLException);
 		}
 		return restEndpoint;
 	}
@@ -188,7 +188,7 @@ public class SauceRestUtil extends SauceREST {
 		try {
 			restEndpoint = new URL(String.format(SPECIFIC_JOB_RESULT_URL, username, accessKey, username, jobId));
 		} catch (final MalformedURLException malformedURLException) {
-			logger.warn("Error constructing Sauce URL", malformedURLException);
+			logger.error("Error constructing Sauce URL", malformedURLException);
 		}
 		return restEndpoint;
 	}
@@ -215,14 +215,14 @@ public class SauceRestUtil extends SauceREST {
 				builder.append(inputLine);
 			}
 		} catch (final IOException ioException) {
-			logger.warn("Error retrieving Sauce Results", ioException);
+			logger.error("Error retrieving Sauce Results", ioException);
 		}
 		try {
 			if (reader != null) {
 				reader.close();
 			}
 		} catch (final IOException ioException) {
-			logger.warn("Error closing Sauce input stream", ioException);
+			logger.error("Error closing Sauce input stream", ioException);
 		}
 		return builder.toString();
 	}
@@ -260,7 +260,7 @@ public class SauceRestUtil extends SauceREST {
 			}
 			out.flush();
 		} catch (final IOException ioException) {
-			logger.warn("Error downloading Sauce Results", ioException);
+			logger.error("Error downloading Sauce Results", ioException);
 		}
 	}
 

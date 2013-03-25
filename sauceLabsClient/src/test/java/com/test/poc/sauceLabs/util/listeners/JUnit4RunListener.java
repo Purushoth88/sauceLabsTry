@@ -3,6 +3,7 @@ package com.test.poc.sauceLabs.util.listeners;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
 import org.apache.maven.plugin.surefire.StartupReportConfiguration;
 import org.apache.maven.plugin.surefire.booterclient.output.DeserializedStacktraceWriter;
 import org.apache.maven.plugin.surefire.report.DefaultReporterFactory;
@@ -17,13 +18,22 @@ import org.junit.runner.notification.Failure;
 import org.junit.runners.Parameterized;
 
 /**
- * Simple JUnit test listener. Usefull together with Surefire plugin to listen to test events.
+ * Simple JUnit test listener. Useful together with Surefire plugin to listen to test events.
  * 
  * @author Nicolae.Petridean
  * @author Ciprian I. Ileana
  */
 @RunWith(value = Parameterized.class)
 public class JUnit4RunListener extends org.junit.runner.notification.RunListener {
+
+	/**
+	 * class logger.
+	 */
+	private static final Logger			logger		= Logger.getLogger(JUnit4RunListener.class);
+
+	/**
+	 * 
+	 */
 	private static final Pattern		PARENS		= Pattern.compile("^" + ".+" // any character
 															+ "\\(("
 															// then an open-paren (start matching a group)
@@ -114,11 +124,11 @@ public class JUnit4RunListener extends org.junit.runner.notification.RunListener
 		try {
 			displayName += description.getTestClass().getField("sessionId").toGenericString();
 		} catch (final SecurityException securityException) {
-			// TODO Auto-generated catch block
-			securityException.printStackTrace();
+			logger.error("Security exception occured " + securityException.getMessage());
+			logger.error(securityException.getStackTrace());
 		} catch (final NoSuchFieldException noSuchFieldException) {
-			// TODO Auto-generated catch block
-			noSuchFieldException.printStackTrace();
+			logger.error("noSuchFieldException exception occured " + noSuchFieldException.getMessage());
+			logger.error(noSuchFieldException.getStackTrace());
 		}
 		final Boolean failure = failureFlag.get();
 		if (failure == null) {
@@ -170,6 +180,7 @@ public class JUnit4RunListener extends org.junit.runner.notification.RunListener
 			for (final Failure failure : run.getFailures()) {
 				if (isFailureInsideJUnitItself(failure)) {
 					final Throwable exception = failure.getException();
+					logger.warn("Test set failed " + exception.getMessage());
 					throw new TestSetFailedException(exception);
 				}
 			}

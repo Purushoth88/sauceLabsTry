@@ -36,45 +36,57 @@ public class SauceRestUtil extends SauceREST {
 	private static final Logger	logger					= Logger.getLogger(SauceRestUtil.class);
 
 	/**
-	 * Base url , containing link to sauceLabs rest api and authentication tokens
+	 * .flv extension
+	 */
+	private static final String	FLV_EXTENTION			= ".flv";
+
+	/**
+	 * .log extension
+	 */
+	private static final String	LOG_EXTENTION			= ".log";
+
+	/**
+	 * Base URL , containing link to sauceLabs rest api and authentication tokens
 	 */
 	private static final String	AUTH_RESTURL			= "https://%1$s:%2$s@saucelabs.com";
 
 	/**
-	 * jobs results url.
+	 * jobs results URL
 	 */
 	private static final String	ALL_JOBS_RESULT_URL		= AUTH_RESTURL + "/rest/v1/%3$s/jobs";
 
 	/**
-	 * job results url.
+	 * job results URL
 	 */
 	private static final String	SPECIFIC_JOB_RESULT_URL	= ALL_JOBS_RESULT_URL + "/%4$s";
 
 	/**
-	 * asset base url.
+	 * asset base URL
 	 */
 	private static final String	JOB_ASSET_BASE_URL		= AUTH_RESTURL + "/rest/%3$s/jobs/%4$s/results";
 
 	/**
-	 * video url.
+	 * video URL
 	 */
 	private static final String	JOB_VIDEO_URL			= JOB_ASSET_BASE_URL + "/video.flv";
 
 	/**
-	 * log url.
+	 * log URL
 	 */
 	private static final String	JOB_LOG_URL				= JOB_ASSET_BASE_URL + "/selenium-server.log";
 
 	/**
-	 * date format to limit rest api results.
+	 * date format to limit rest API results.
 	 */
 	private static final String	DATE_FORMAT				= "yyyyMMdd_HHmmSS";
 
 	/**
-	 * C'tor, using sauceLabs userName and accessKey.
+	 * Parameterized constructor, using sauceLabs userName and accessKey.
 	 * 
 	 * @param username
+	 *            the user name
 	 * @param accessKey
+	 *            the access key
 	 */
 	public SauceRestUtil(final String username, final String accessKey) {
 		super(username, accessKey);
@@ -86,6 +98,7 @@ public class SauceRestUtil extends SauceREST {
 	 * @param jobId
 	 *            the Sauce Job Id, typically equal to the Selenium/WebDriver sessionId
 	 * @param location
+	 *            the location
 	 */
 	public void downloadVideo(final String jobId, final String location) {
 		final URL restEndpoint = composeVideoUrl(jobId);
@@ -93,10 +106,11 @@ public class SauceRestUtil extends SauceREST {
 	}
 
 	/**
-	 * Compose Rest Api job video url.
+	 * Compose Rest API job video URL
 	 * 
 	 * @param jobId
-	 * @return
+	 *            the Sauce Job Id, typically equal to the Selenium/WebDriver sessionId
+	 * @return the URL for job's video
 	 */
 	public URL composeVideoUrl(final String jobId) {
 		URL restEndpoint = null;
@@ -109,12 +123,12 @@ public class SauceRestUtil extends SauceREST {
 	}
 
 	/**
-	 * Downloads the log file for a Sauce Job to the filesystem. The file will be stored in a directory specified by the <code>location</code> field.
+	 * Downloads the log file for a Sauce Job to the file-system. The file will be stored in a directory specified by the <code>location</code> field.
 	 * 
 	 * @param jobId
 	 *            the Sauce Job Id, typically equal to the Selenium/WebDriver sessionId
 	 * @param location
-	 * @param location
+	 *            the location
 	 */
 	public void downloadLog(final String jobId, final String location) {
 		final URL restEndpoint = composeJobLogUrl(jobId);
@@ -122,10 +136,11 @@ public class SauceRestUtil extends SauceREST {
 	}
 
 	/**
-	 * compose test log url, via Rest Api.
+	 * compose test log URL, via Rest API
 	 * 
 	 * @param jobId
-	 * @return
+	 *            the Sauce Job Id, typically equal to the Selenium/WebDriver sessionId
+	 * @return job's log URL
 	 */
 	public URL composeJobLogUrl(final String jobId) {
 		URL restEndpoint = null;
@@ -138,9 +153,8 @@ public class SauceRestUtil extends SauceREST {
 	}
 
 	/**
-	 * Retrieves all user test results via Rest Api.
+	 * Retrieves all user test results via Rest API.
 	 * 
-	 * @param path
 	 * @return
 	 */
 	public String retrieveAllUserJobResults() {
@@ -151,8 +165,7 @@ public class SauceRestUtil extends SauceREST {
 	/**
 	 * Compose URL to user test results.
 	 * 
-	 * @param path
-	 * @return
+	 * @return the test result's URL
 	 */
 	public URL composeUserTestResultsUrl() {
 		URL restEndpoint = null;
@@ -168,7 +181,8 @@ public class SauceRestUtil extends SauceREST {
 	 * read job info via REST API.
 	 * 
 	 * @param jobId
-	 * @return
+	 *            the Sauce Job Id, typically equal to the Selenium/WebDriver sessionId
+	 * @return the job info
 	 */
 	public String getJobInfo(final String jobId) {
 		URL restEndpoint = null;
@@ -177,10 +191,10 @@ public class SauceRestUtil extends SauceREST {
 	}
 
 	/**
-	 * Compose the job info url (Rest Api url).
+	 * Compose the job info URL (Rest API URL).
 	 * 
 	 * @param jobId
-	 * @param restEndpoint
+	 *            the Sauce Job Id, typically equal to the Selenium/WebDriver sessionId
 	 * @return
 	 */
 	public URL composeJobInfoUrl(final String jobId) {
@@ -197,7 +211,8 @@ public class SauceRestUtil extends SauceREST {
 	 * Retrieve results from SauceLabs , via REST API.
 	 * 
 	 * @param restEndpoint
-	 * @return
+	 *            endpoint's URL
+	 * @return the results
 	 */
 	public String retrieveResults(final URL restEndpoint) {
 		BufferedReader reader = null;
@@ -228,11 +243,14 @@ public class SauceRestUtil extends SauceREST {
 	}
 
 	/**
-	 * Downloads a sauceLabs file (either server/screenshot or video) from SauceLabs env., via REST API.
+	 * Downloads a sauceLabs file (either server/screen-shot or video) from SauceLabs environment, via REST API.
 	 * 
 	 * @param jobId
+	 *            the Sauce Job Id, typically equal to the Selenium/WebDriver sessionId
 	 * @param location
+	 *            the location
 	 * @param restEndpoint
+	 *            endpoint's URL
 	 */
 	private void downloadFile(final String jobId, final String location, final URL restEndpoint) {
 		try {
@@ -247,10 +265,10 @@ public class SauceRestUtil extends SauceREST {
 			final BufferedInputStream in = new BufferedInputStream(stream);
 			final SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
 			String saveName = jobId + format.format(new Date());
-			if (restEndpoint.getPath().endsWith(".flv")) {
-				saveName = saveName + ".flv";
+			if (restEndpoint.getPath().endsWith(FLV_EXTENTION)) {
+				saveName = saveName + FLV_EXTENTION;
 			} else {
-				saveName = saveName + ".log";
+				saveName = saveName + LOG_EXTENTION;
 			}
 			final FileOutputStream file = new FileOutputStream(new File(location, saveName));
 			final BufferedOutputStream out = new BufferedOutputStream(file);

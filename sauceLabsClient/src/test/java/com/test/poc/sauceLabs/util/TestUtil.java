@@ -93,7 +93,7 @@ public class TestUtil {
 			webDriver.findElement(by);
 			isElementPresent = true;
 		} catch (final NoSuchElementException noSuchElementException) {
-			logger.debug("Element wasn't found [" + noSuchElementException.getMessage() + "]");
+			logger.error("Element wasn't found [" + noSuchElementException.getMessage() + "]");
 		}
 
 		return isElementPresent;

@@ -3,6 +3,8 @@
  */
 package com.test.poc.sauceLabs.tests;
 
+import static com.test.poc.sauceLabs.util.flows.FlowsUtil.cabCheckoutWithExistingAccount;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 
@@ -90,6 +92,7 @@ public class ParametrizedWebDriverTest extends ParametrizedParentTest {
 	@Test
 	public void sampleTest() {
 		logger.info("ParametrizedWebDriverTest - sampleTest");
+		cabCheckoutWithExistingAccount(webDriver);
 	}
 
 }

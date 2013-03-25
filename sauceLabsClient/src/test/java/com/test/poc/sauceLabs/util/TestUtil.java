@@ -141,6 +141,14 @@ public class TestUtil {
 		return webDriver.findElements(By.tagName(tagName)).size();
 	}
 
+	/**
+	 * Utility method that causes your {@link WebDriver} to wait until the specified number of iFrames are present
+	 * 
+	 * @param webDriver
+	 *            {@link WebDriver} to be used
+	 * @param expectedCount
+	 *            the number of occurrences
+	 */
 	public static void waitForIframes(final WebDriver webDriver, final int expectedCount) {
 		Boolean webDriverWaiting = false;
 

@@ -49,7 +49,8 @@ public class TestUtil {
 	 * @return the dynamically created {@link DesiredCapabilities}
 	 */
 	public static DesiredCapabilities prepareDesiredCapabilities(final CapabilityConfiguration capabilityConfiguration) {
-		final DesiredCapabilities desiredCapabilities = new DesiredCapabilities(capabilityConfiguration.getBrowserName(), capabilityConfiguration.getBrowserVersion(), Platform.valueOf(capabilityConfiguration.getPlatform()));
+		final DesiredCapabilities desiredCapabilities = new DesiredCapabilities(capabilityConfiguration.getBrowserName(),
+				capabilityConfiguration.getBrowserVersion(), Platform.valueOf(capabilityConfiguration.getPlatform()));
 
 		return desiredCapabilities;
 	}
@@ -65,12 +66,14 @@ public class TestUtil {
 	 * @throws MalformedURLException
 	 *             if the dynamically created URL when initializing the {@link RemoteWebDriver} specifies an unknown protocol.
 	 */
-	public static WebDriver prepareWebDriver(final CapabilityConfiguration capabilityConfiguration, final SauceOnDemandAuthentication authentication) throws MalformedURLException {
+	public static WebDriver prepareWebDriver(final CapabilityConfiguration capabilityConfiguration, final SauceOnDemandAuthentication authentication)
+			throws MalformedURLException {
 		WebDriver webDriver = null;
 
 		final DesiredCapabilities desiredCapabilities = TestUtil.prepareDesiredCapabilities(capabilityConfiguration);
 
-		webDriver = new RemoteWebDriver(new URL("http://" + authentication.getUsername() + ":" + authentication.getAccessKey() + "@ondemand.saucelabs.com:80/wd/hub"), desiredCapabilities);
+		webDriver = new RemoteWebDriver(new URL("http://" + authentication.getUsername() + ":" + authentication.getAccessKey()
+				+ "@ondemand.saucelabs.com:80/wd/hub"), desiredCapabilities);
 		return webDriver;
 	}
 
@@ -151,9 +154,9 @@ public class TestUtil {
 	 */
 	public static void waitForIframes(final WebDriver webDriver, final int expectedCount) {
 		Boolean webDriverWaiting = false;
-
+		logger.info("Wating for iframes to load");
 		while (!webDriverWaiting) {
-			logger.debug("waiting...");
+			logger.info("waiting...");
 			webDriverWaiting = new WebDriverWait(webDriver, 10).until(new ExpectedCondition<Boolean>() {
 
 				/**
@@ -165,16 +168,17 @@ public class TestUtil {
 				public Boolean apply(final WebDriver driver) {
 					final List<WebElement> iframes = driver.findElements(By.tagName("iframe"));
 					final Integer size = iframes.size();
-					logger.debug("number of current iframes [" + size + "]");
+					logger.info("number of current iframes [" + size + "]");
 					if (size == expectedCount) {
 						for (final WebElement iframe : iframes) {
-							logger.debug("iframe ID: [" + iframe.getAttribute("id") + "]");
+							logger.info("iframe ID: [" + iframe.getAttribute("id") + "]");
 						}
 					}
 					return (size == expectedCount);
 				}
 			});
 		}
+		logger.info("Iframes loaded completely");
 	}
 
 }

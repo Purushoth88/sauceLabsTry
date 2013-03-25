@@ -44,7 +44,7 @@ public class JSONConfigurationUtils {
 	 *             if a problem occurs while reading data from the provided resource
 	 */
 	private static JSONObject loadJSON(final String resource) throws JSONException, IOException {
-		logger.debug("Preparing to load JSON from resource [" + resource + "]");
+		logger.info("Preparing to load JSON from resource [" + resource + "]");
 		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(resource);
 
 		if (inputStream == null) {

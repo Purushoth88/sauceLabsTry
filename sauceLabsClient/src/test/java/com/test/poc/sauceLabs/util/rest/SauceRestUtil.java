@@ -21,8 +21,6 @@ import sun.misc.BASE64Encoder;
 import com.saucelabs.saucerest.SauceREST;
 
 /**
- * TODO: document this better, get out the ugly shit. ERROR logs.
- * 
  * Simple Java API that invokes the Sauce REST API.
  * 
  * @author Nicolae Petridean
@@ -43,7 +41,7 @@ public class SauceRestUtil extends SauceREST {
 	private static final String	AUTH_RESTURL			= "https://%1$s:%2$s@saucelabs.com";
 
 	/**
-	 * user results url.
+	 * jobs results url.
 	 */
 	private static final String	ALL_JOBS_RESULT_URL		= AUTH_RESTURL + "/rest/v1/%3$s/jobs";
 
@@ -63,7 +61,7 @@ public class SauceRestUtil extends SauceREST {
 	private static final String	JOB_VIDEO_URL			= JOB_ASSET_BASE_URL + "/video.flv";
 
 	/**
-	 * video url.
+	 * log url.
 	 */
 	private static final String	JOB_LOG_URL				= JOB_ASSET_BASE_URL + "/selenium-server.log";
 
@@ -95,7 +93,7 @@ public class SauceRestUtil extends SauceREST {
 	}
 
 	/**
-	 * job video url.
+	 * Compose Rest Api job video url.
 	 * 
 	 * @param jobId
 	 * @return
@@ -124,7 +122,7 @@ public class SauceRestUtil extends SauceREST {
 	}
 
 	/**
-	 * test log url.
+	 * compose test log url, via Rest Api.
 	 * 
 	 * @param jobId
 	 * @return
@@ -140,7 +138,7 @@ public class SauceRestUtil extends SauceREST {
 	}
 
 	/**
-	 * user test results url.
+	 * Retrieves all user test results via Rest Api.
 	 * 
 	 * @param path
 	 * @return
@@ -151,6 +149,8 @@ public class SauceRestUtil extends SauceREST {
 	}
 
 	/**
+	 * Compose URL to user test results.
+	 * 
 	 * @param path
 	 * @return
 	 */
@@ -165,7 +165,7 @@ public class SauceRestUtil extends SauceREST {
 	}
 
 	/**
-	 * job info url.
+	 * read job info via REST API.
 	 * 
 	 * @param jobId
 	 * @return
@@ -177,6 +177,8 @@ public class SauceRestUtil extends SauceREST {
 	}
 
 	/**
+	 * Compose the job info url (Rest Api url).
+	 * 
 	 * @param jobId
 	 * @param restEndpoint
 	 * @return
@@ -192,6 +194,8 @@ public class SauceRestUtil extends SauceREST {
 	}
 
 	/**
+	 * Retrieve results from SauceLabs , via REST API.
+	 * 
 	 * @param restEndpoint
 	 * @return
 	 */
@@ -224,6 +228,8 @@ public class SauceRestUtil extends SauceREST {
 	}
 
 	/**
+	 * Downloads a sauceLabs file (either server/screenshot or video) from SauceLabs env., via REST API.
+	 * 
 	 * @param jobId
 	 * @param location
 	 * @param restEndpoint

@@ -10,13 +10,11 @@
           "browserName": "internet explorer",
           "version": "9",
           "platform": "VISTA",
-          "maxInstances": 1
         },
         {
           "browserName": "firefox",
           "version": "5",
           "platform": "XP",
-          "maxInstances": 1
         }
       ],
     "configuration":

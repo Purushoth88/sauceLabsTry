@@ -42,14 +42,14 @@ public class SeleniumRCWithHelperTest implements SauceOnDemandSessionIdProvider 
 	/**
 	 * JUnit Rule which will mark the Sauce Job as passed/failed when the test succeeds or fails.
 	 */
-	public @Rule
-	SauceOnDemandTestWatcher			resultReportingTestWatcher	= new SauceOnDemandTestWatcher(this, authentication);
+	@Rule
+	public SauceOnDemandTestWatcher		resultReportingTestWatcher	= new SauceOnDemandTestWatcher(this, authentication);
 
 	/**
 	 * JUnit Rule which will record the test name of the current test. This is referenced when creating the {@link DesiredCapabilities}, so that the Sauce Job is created with the test name.
 	 */
-	public @Rule
-	TestName							testName					= new TestName();
+	@Rule
+	public TestName						testName					= new TestName();
 
 	/**
 	 * Instance of the default implementation of the Selenium interface
@@ -69,8 +69,9 @@ public class SeleniumRCWithHelperTest implements SauceOnDemandSessionIdProvider 
 	@Before
 	public void setUp() throws Exception {
 		logger.info("SeleniumRCWithHelperTest - setup");
-		final DefaultSelenium selenium = new DefaultSelenium("ondemand.saucelabs.com", 80, "{\"username\": \"" + authentication.getUsername() + "\"," + "\"access-key\": \"" + authentication.getAccessKey() + "\","
-				+ "\"os\": \"Windows 2003\"," + "\"browser\": \"firefox\"," + "\"browser-version\": \"7\"," + "\"name\": \"Testing Selenium 1 with Java on Sauce\"}", "http://saucelabs.com/");
+		final DefaultSelenium selenium = new DefaultSelenium("ondemand.saucelabs.com", 80, "{\"username\": \"" + authentication.getUsername() + "\","
+				+ "\"access-key\": \"" + authentication.getAccessKey() + "\"," + "\"os\": \"Windows 2003\"," + "\"browser\": \"firefox\","
+				+ "\"browser-version\": \"7\"," + "\"name\": \"Testing Selenium 1 with Java on Sauce\"}", "http://saucelabs.com/");
 		selenium.start();
 		this.selenium = selenium;
 		this.sessionId = getSessionIdFromSelenium();

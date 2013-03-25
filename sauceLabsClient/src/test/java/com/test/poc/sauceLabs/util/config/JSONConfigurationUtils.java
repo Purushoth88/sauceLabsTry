@@ -43,29 +43,29 @@ public class JSONConfigurationUtils {
 	 * @throws IOException
 	 *             if a problem occurs while reading data from the provided resource
 	 */
-	private static JSONObject loadJSON(String resource) throws JSONException, IOException {
+	private static JSONObject loadJSON(final String resource) throws JSONException, IOException {
 		logger.debug("Preparing to load JSON from resource [" + resource + "]");
 		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(resource);
 
 		if (inputStream == null) {
 			try {
 				inputStream = new FileInputStream(resource);
-			} catch (FileNotFoundException fileNotFoundException) {
+			} catch (final FileNotFoundException fileNotFoundException) {
 				logger.error("Unable to find file [" + resource + "].");
 				throw new RuntimeException(resource + " is not a valid resource.", fileNotFoundException);
 			}
 		}
 
-		StringBuilder stringBuilder = new StringBuilder();
-		InputStreamReader inputreader = new InputStreamReader(inputStream);
-		BufferedReader buffreader = new BufferedReader(inputreader);
+		final StringBuilder stringBuilder = new StringBuilder();
+		final InputStreamReader inputreader = new InputStreamReader(inputStream);
+		final BufferedReader buffreader = new BufferedReader(inputreader);
 		String line;
 
 		try {
 			while ((line = buffreader.readLine()) != null) {
 				stringBuilder.append(line);
 			}
-		} catch (IOException ioException) {
+		} catch (final IOException ioException) {
 			logger.error("Error while reading from [" + resource + "].");
 			throw new IOException("Cannot read file [" + resource + "] , " + ioException);
 		} finally {
@@ -73,14 +73,14 @@ public class JSONConfigurationUtils {
 				buffreader.close();
 				inputreader.close();
 				inputStream.close();
-			} catch (IOException ioException) {
+			} catch (final IOException ioException) {
 				logger.error("Error while reading from [" + resource + "].");
-				ioException.printStackTrace();
+				logger.error(ioException.getStackTrace());
 			}
 		}
-		logger.debug("Finished loading JSON from resource [" + resource + "]");
+		logger.info("Finished loading JSON from resource [" + resource + "]");
 
-		String content = stringBuilder.toString();
+		final String content = stringBuilder.toString();
 		JSONObject jsonContent;
 		jsonContent = new JSONObject(content);
 
@@ -100,25 +100,25 @@ public class JSONConfigurationUtils {
 	 * @throws IllegalArgumentException
 	 *             if any of the required configuration data is not present in the configuration file
 	 */
-	public static ProfileConfiguration loadProfileConfiguration(String configurationFile) throws JSONException, IOException {
+	public static ProfileConfiguration loadProfileConfiguration(final String configurationFile) throws JSONException, IOException {
 		logger.debug("Preparing to load the profile configuration from [" + configurationFile + "]");
-		ProfileConfiguration profileConfiguration = new ProfileConfiguration();
+		final ProfileConfiguration profileConfiguration = new ProfileConfiguration();
 
 		if ((configurationFile == null) || (configurationFile.isEmpty())) {
 			logger.error("Unable to load from [" + configurationFile + "] (configurationFile cannot be neither NULL nor empty).");
 			throw new IllegalArgumentException("configurationFile cannot be neither NULL nor empty!");
 		}
 
-		JSONObject jsonObject = loadJSON(configurationFile);
+		final JSONObject jsonObject = loadJSON(configurationFile);
 
 		if (jsonObject.has("credentials")) {
 			logger.info("credentials - CHECKED");
-			JSONObject jsonCredentials = jsonObject.getJSONObject("credentials");
+			final JSONObject jsonCredentials = jsonObject.getJSONObject("credentials");
 
-			String userName = jsonCredentials.getString("userName");
-			String accessKey = jsonCredentials.getString("accessKey");
+			final String userName = jsonCredentials.getString("userName");
+			final String accessKey = jsonCredentials.getString("accessKey");
 
-			Credentials credentials = new Credentials();
+			final Credentials credentials = new Credentials();
 			credentials.setUserName(userName);
 			credentials.setAccessKey(accessKey);
 			profileConfiguration.setCredentials(credentials);
@@ -130,17 +130,17 @@ public class JSONConfigurationUtils {
 
 		if (jsonObject.has("capabilities")) {
 			logger.info("capabilities - CHECKED");
-			JSONArray capabilities = jsonObject.getJSONArray("capabilities");
+			final JSONArray capabilities = jsonObject.getJSONArray("capabilities");
 			if (capabilities.length() >= 1) {
 				for (int i = 0; i < capabilities.length(); i++) {
 					if (!capabilities.isNull(i)) {
-						JSONObject capability = capabilities.getJSONObject(i);
+						final JSONObject capability = capabilities.getJSONObject(i);
 
-						CapabilityConfiguration capabilityConfiguration = new CapabilityConfiguration();
+						final CapabilityConfiguration capabilityConfiguration = new CapabilityConfiguration();
 
-						String browserName = capability.getString("browserName");
-						String browserVersion = capability.getString("version");
-						String platform = capability.getString("platform");
+						final String browserName = capability.getString("browserName");
+						final String browserVersion = capability.getString("version");
+						final String platform = capability.getString("platform");
 
 						capabilityConfiguration.setBrowserName(browserName);
 						capabilityConfiguration.setBrowserVersion(browserVersion);
@@ -150,7 +150,7 @@ public class JSONConfigurationUtils {
 
 						logger.info(capabilityConfiguration);
 					} else {
-						logger.error("capabilities - ignoring empty capability!");
+						logger.warn("capabilities - ignoring empty capability!");
 					}
 				}
 

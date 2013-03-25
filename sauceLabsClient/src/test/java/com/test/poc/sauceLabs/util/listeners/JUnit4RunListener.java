@@ -126,15 +126,31 @@ public class JUnit4RunListener extends org.junit.runner.notification.RunListener
 		}
 	}
 
+	/**
+	 * Create Report entry.
+	 * 
+	 * @param description
+	 * @return
+	 */
 	protected SimpleReportEntry createReportEntry(final Description description) {
 		final SimpleReportEntry entry = SimpleReportEntry.ignored(getClassName(description), description.getDisplayName(), "MUHAHAHA");
 		return entry;
 	}
 
+	/**
+	 * 
+	 * @param description
+	 * @return
+	 */
 	public String getClassName(final Description description) {
 		return extractClassName(description);
 	}
 
+	/**
+	 * 
+	 * @param description
+	 * @return
+	 */
 	public static String extractClassName(final Description description) {
 		final String displayName = description.getDisplayName();
 		final Matcher matcher = PARENS.matcher(displayName);
@@ -144,6 +160,11 @@ public class JUnit4RunListener extends org.junit.runner.notification.RunListener
 		return matcher.group(1);
 	}
 
+	/**
+	 * 
+	 * @param run
+	 * @throws TestSetFailedException
+	 */
 	public static void rethrowAnyTestMechanismFailures(final Result run) throws TestSetFailedException {
 		if (run.getFailureCount() > 0) {
 			for (final Failure failure : run.getFailures()) {
@@ -155,6 +176,11 @@ public class JUnit4RunListener extends org.junit.runner.notification.RunListener
 		}
 	}
 
+	/**
+	 * 
+	 * @param failure
+	 * @return
+	 */
 	private static boolean isFailureInsideJUnitItself(final Failure failure) {
 		return failure.getDescription().getDisplayName().equals("Test mechanism");
 	}

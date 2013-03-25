@@ -1,4 +1,4 @@
-package com.test.poc.sauceLabs.util.surefire.listeners;
+package com.test.poc.sauceLabs.util.listeners;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

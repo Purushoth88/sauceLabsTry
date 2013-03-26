@@ -6,6 +6,7 @@ package com.test.poc.sauceLabs.util;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Alert;
@@ -49,8 +50,7 @@ public class TestUtil {
 	 * @return the dynamically created {@link DesiredCapabilities}
 	 */
 	public static DesiredCapabilities prepareDesiredCapabilities(final CapabilityConfiguration capabilityConfiguration) {
-		final DesiredCapabilities desiredCapabilities = new DesiredCapabilities(capabilityConfiguration.getBrowserName(),
-				capabilityConfiguration.getBrowserVersion(), Platform.valueOf(capabilityConfiguration.getPlatform()));
+		final DesiredCapabilities desiredCapabilities = new DesiredCapabilities(capabilityConfiguration.getBrowserName(), capabilityConfiguration.getBrowserVersion(), Platform.valueOf(capabilityConfiguration.getPlatform()));
 
 		return desiredCapabilities;
 	}
@@ -66,37 +66,57 @@ public class TestUtil {
 	 * @throws MalformedURLException
 	 *             if the dynamically created URL when initializing the {@link RemoteWebDriver} specifies an unknown protocol.
 	 */
-	public static WebDriver prepareWebDriver(final CapabilityConfiguration capabilityConfiguration, final SauceOnDemandAuthentication authentication)
-			throws MalformedURLException {
+	public static WebDriver prepareWebDriver(final CapabilityConfiguration capabilityConfiguration, final SauceOnDemandAuthentication authentication) throws MalformedURLException {
 		WebDriver webDriver = null;
 
 		final DesiredCapabilities desiredCapabilities = TestUtil.prepareDesiredCapabilities(capabilityConfiguration);
 
-		webDriver = new RemoteWebDriver(new URL("http://" + authentication.getUsername() + ":" + authentication.getAccessKey()
-				+ "@ondemand.saucelabs.com:80/wd/hub"), desiredCapabilities);
+		webDriver = new RemoteWebDriver(new URL("http://" + authentication.getUsername() + ":" + authentication.getAccessKey() + "@ondemand.saucelabs.com:80/wd/hub"), desiredCapabilities);
+
+		webDriver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
 		return webDriver;
 	}
 
 	/**
-	 * Utility method to check text present on page.
+	 * Waits until the desired element (identified based on the provided {@link By}) is present and displayed.
 	 * 
 	 * @param webDriver
-	 *            : driver to run the test check
+	 *            the {@link WebDriver} to be used
 	 * @param by
-	 *            : By static class.
-	 * @return
+	 *            the way to identify the desired element
+	 * @return the element
 	 */
-	public static boolean isElementPresent(final By by, final WebDriver webDriver) {
-		boolean isElementPresent = false;
+	public static WebElement waitForElement(final WebDriver webDriver, final By by) {
+		WebElement webElement = null;
 
-		try {
-			webDriver.findElement(by);
-			isElementPresent = true;
-		} catch (final NoSuchElementException noSuchElementException) {
-			logger.error("Element wasn't found [" + noSuchElementException.getMessage() + "]");
+		boolean displayed = false;
+
+		while (webElement == null || !displayed) {
+			webElement = isElementPresent(webDriver, by);
+			displayed = webElement.isDisplayed();
 		}
 
-		return isElementPresent;
+		return webElement;
+
+	}
+
+	/**
+	 * Checks if an element (identified based on the provided {@link By}) is present
+	 * 
+	 * @param webDriver
+	 *            the {@link WebDriver} to be used
+	 * @param by
+	 *            the way to identify the desired element
+	 * @return the element if it is present
+	 */
+	public static WebElement isElementPresent(final WebDriver webDriver, final By by) {
+		try {
+			final WebElement element = webDriver.findElement(by);
+			return element;
+		} catch (final NoSuchElementException e) {
+			return null;
+		}
 	}
 
 	/**

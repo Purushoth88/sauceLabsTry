@@ -3,7 +3,7 @@
  */
 package com.test.poc.sauceLabs.tests;
 
-import static com.test.poc.sauceLabs.util.flows.FlowsUtil.cabCheckoutWithExistingAccount;
+import static com.test.poc.sauceLabs.util.flows.FlowsUtil.*;
 
 import java.io.IOException;
 import java.net.MalformedURLException;

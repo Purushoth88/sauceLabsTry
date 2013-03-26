@@ -1,36 +1,37 @@
 {
   "credentials":
         {
-          "userName": "<userId>",
+          "userName": "<username>",
           "accessKey": "<accessKey>",
         },
   "capabilities":
       [
         {
-          "browserName": "internet explorer",
-          "version": "9",
-          "platform": "VISTA",
+			"browserName": "internet explorer",
+			"version": "9",
+			"platform": "VISTA",
         },
         {
-          "browserName": "firefox",
-          "version": "5",
-          "platform": "XP",
+			"browserName": "firefox",
+			"version": "5",
+			"platform": "XP",
         }
       ],
     "configuration":
         {
-        "nodeTimeout":120,
-        "port":5555,
-
-        "hubPort":4444,
-        "hubHost":"localhost",
-
-        "nodePolling":2000,
-
-        "registerCycle":10000,
-        "register":true,
-        "cleanUpCycle":2000,
-        "timeout":30000,
-        "maxSession":1,
+	        "nodeTimeout":120,
+	        "port":5555,
+	
+	        "hubPort":4444,
+	        "hubHost":"localhost",
+	
+	        "nodePolling":2000,
+	
+	        "registerCycle":10000,
+	        "register":true,
+	        "cleanUpCycle":2000,
+	        "timeout":30000,
+	        "maxSession":1,
         }
+>>>>>>> edb57351243e7b19c78558e04b663f29b51d248c
 }

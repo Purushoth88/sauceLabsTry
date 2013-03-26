@@ -94,7 +94,7 @@ public class JUnit4RunListener extends org.junit.runner.notification.RunListener
 	}
 
 	/**
-	 * used to write the stackTrace to report files.
+	 * Used to write the stackTrace to report files.
 	 * 
 	 * @param failure
 	 * @return
@@ -103,8 +103,10 @@ public class JUnit4RunListener extends org.junit.runner.notification.RunListener
 		return new DeserializedStacktraceWriter(failure.getMessage(), failure.getTestHeader(), failure.getTrace());
 	}
 
-	/**
-	 * assumption failure listener method.
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.junit.runner.notification.RunListener#testAssumptionFailure(org.junit.runner.notification.Failure)
 	 */
 	@Override
 	public void testAssumptionFailure(final Failure failure) {
@@ -112,8 +114,8 @@ public class JUnit4RunListener extends org.junit.runner.notification.RunListener
 		failureFlag.set(Boolean.TRUE);
 	}
 
-	/**
-	 * Called after a specific test has finished.
+	/*
+	 * (non-Javadoc)
 	 * 
 	 * @see org.junit.runner.notification.RunListener#testFinished(org.junit.runner.Description)
 	 */
@@ -137,29 +139,35 @@ public class JUnit4RunListener extends org.junit.runner.notification.RunListener
 	}
 
 	/**
-	 * Create Report entry.
+	 * Creates a {@link SimpleReportEntry} entry based on the provided {@link Description}
 	 * 
 	 * @param description
-	 * @return
+	 *            the {@link Description} based on which the {@link SimpleReportEntry} will be created.
+	 * @return the created {@link SimpleReportEntry}
 	 */
 	protected SimpleReportEntry createReportEntry(final Description description) {
-		final SimpleReportEntry entry = SimpleReportEntry.ignored(getClassName(description), description.getDisplayName(), "MUHAHAHA");
+		final SimpleReportEntry entry = SimpleReportEntry.ignored(getClassName(description), description.getDisplayName(), "MESSAGE");
+
 		return entry;
 	}
 
 	/**
+	 * Extracts the class name from an {@link Description}. Please see {@link JUnit4RunListener#extractClassName(Description)}
 	 * 
 	 * @param description
-	 * @return
+	 *            the {@link Description} from which to extract the class name
+	 * @return the class name
 	 */
 	public String getClassName(final Description description) {
 		return extractClassName(description);
 	}
 
 	/**
+	 * Extracts the class name from an {@link Description}
 	 * 
 	 * @param description
-	 * @return
+	 *            the {@link Description} from which to extract the class name
+	 * @return the class name
 	 */
 	public static String extractClassName(final Description description) {
 		final String displayName = description.getDisplayName();
@@ -171,9 +179,12 @@ public class JUnit4RunListener extends org.junit.runner.notification.RunListener
 	}
 
 	/**
+	 * Cycles through all failures and re-throws those which are inside the JUnit itself. Please see {@link #isFailureInsideJUnitItself(Failure)}
 	 * 
 	 * @param run
+	 *            the {@link Result} on who's failures we'll cycle through
 	 * @throws TestSetFailedException
+	 *             if we encounter a failure that is inside the JUnit itself
 	 */
 	public static void rethrowAnyTestMechanismFailures(final Result run) throws TestSetFailedException {
 		if (run.getFailureCount() > 0) {
@@ -188,9 +199,11 @@ public class JUnit4RunListener extends org.junit.runner.notification.RunListener
 	}
 
 	/**
+	 * Checks if the given {@link Failure} is inside the JUnit itself.
 	 * 
 	 * @param failure
-	 * @return
+	 *            the {@link Failure} for which to check
+	 * @return true if it is inside, false otherwise
 	 */
 	private static boolean isFailureInsideJUnitItself(final Failure failure) {
 		return failure.getDescription().getDisplayName().equals("Test mechanism");

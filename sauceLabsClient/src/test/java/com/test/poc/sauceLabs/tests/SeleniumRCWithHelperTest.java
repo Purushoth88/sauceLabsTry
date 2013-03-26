@@ -37,7 +37,7 @@ public class SeleniumRCWithHelperTest implements SauceOnDemandSessionIdProvider 
 	 * Constructs a {@link SauceOnDemandAuthentication} instance using the supplied user name/access key. To use the authentication supplied by environment variables or from an external file, use the no-arg
 	 * {@link SauceOnDemandAuthentication} constructor.
 	 */
-	public SauceOnDemandAuthentication	authentication				= new SauceOnDemandAuthentication("<userId>", "<accessKey>");
+	public SauceOnDemandAuthentication	authentication				= new SauceOnDemandAuthentication("<username>", "<accessKey>");
 
 	/**
 	 * JUnit Rule which will mark the Sauce Job as passed/failed when the test succeeds or fails.

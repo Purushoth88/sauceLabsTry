@@ -32,12 +32,12 @@ public class FlowsUtil {
 	/**
 	 * A valid CaB login email to be used on Checkout With Existing Account flow
 	 */
-	private static final String	CAB_LOGIN_EMAIL			= "thijs@consumer.com";
+	private static final String	CAB_LOGIN_EMAIL			= "your email";
 
 	/**
 	 * A valid CaB login password to be used on Checkout With Existing Account flow
 	 */
-	private static final String	CAB_LOGIN_PASSWORD		= "123@test";
+	private static final String	CAB_LOGIN_PASSWORD		= "your password";
 
 	/**
 	 * The expected number of iFrames
@@ -87,6 +87,5 @@ public class FlowsUtil {
 
 		WebElement cvvYesButton = waitForElement(webDriver, By.xpath(".//*[@id='form-roundabout-creditcard']/ul/li[2]/div[4]/div[2]/button[1]"));
 		cvvYesButton.click();
-
 	}
 }
